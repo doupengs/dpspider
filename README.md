@@ -37,7 +37,6 @@
 ```
 #### 初始化的成员
 
-```markdown
 * **self.listUrls** : 最初的要爬取的列表页的所有链接
 * **self.pageUrls** : 存储通过列表页解析来的所有详情页的链接
 * **self.encoding** : 网页的编码，默认为UTF-8
@@ -77,7 +76,6 @@
  * **self.redisPort** : 数据库的端口号，默认为6379
  * **self.redisDb** : redis数据库，默认为0
  * **self.redisPassword** : 数据库的密码，默认为 None
- ```
  
 #### 重写的方法
  
