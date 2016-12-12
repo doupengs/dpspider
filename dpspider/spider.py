@@ -184,7 +184,8 @@ class Spider(object):
                         self.RD.set(MD5KEY,self.mysqlTableName)
                 else:
                     self.__repeatRedis += 1
-                    printText("[WARING]:%s '%s' exist in redis"%(self.redisMd5Key,MD5KEY),'yellow',isDebug=self.isDebug)
+                    printText('[COLUMN]:%s'%key,'black','white',isDebug=self.isDebug)
+                    printText(jsonData[key],isDebug=self.isDebug)
             else:
                 self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF)
         printText('#'*60,'purple',isDebug=self.isDebug)
