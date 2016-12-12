@@ -19,7 +19,7 @@ class Spider(object):
         :members init:
             :self.listUrls: default=[] <class list|list urls>
             :self.pageUrls: default=[] <class list|pages urls>
-            :self.encoding: default='utf-8'<class str|it's response.encoding>
+            :self.encoding: default='utf-8' <class str|it's response.encoding>
             :self.threadNum: default=10 <class int|open the number of threads>
             :self.isDebug: default=True <class bool> or <class str|'print'>
             :self.downloader params as follows:
