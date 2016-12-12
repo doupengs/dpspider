@@ -206,12 +206,13 @@ class Spider(object):
                 self.RD = redis.Redis(host=self.redisHost,port=self.redisPort,db=self.redisDb,password=self.redisPassword)
         self.runThreadingParse(len(self.listUrls),self.listUrls,self.parseList)
         self.runThreadingParse(len(self.pageUrls),self.pageUrls,self.insertMysql)
-        printText('[INFO]NUM_SUCCESS: %d'%self.IM.success,'cyan',isDebug=self.isDebug)
-        printText('[INFO]NUM_FAILED : %d'%self.IM.fail,'cyan',isDebug=self.isDebug)
-        if self.isUseRedis:
-            printText('[INFO]NUM_REPEAT : %d'%self.__repeatRedis,'cyan',isDebug=self.isDebug)
-        else:
-            printText('[INFO]NUM_REPEAT : %d'%self.IM.repeat,'cyan',isDebug=self.isDebug)
+        if self.isInsertMysql:
+            printText('[INFO]NUM_SUCCESS: %d'%self.IM.success,'cyan',isDebug=self.isDebug)
+            printText('[INFO]NUM_FAILED : %d'%self.IM.fail,'cyan',isDebug=self.isDebug)
+            if self.isUseRedis:
+                printText('[INFO]NUM_REPEAT : %d'%self.__repeatRedis,'cyan',isDebug=self.isDebug)
+            else:
+                printText('[INFO]NUM_REPEAT : %d'%self.IM.repeat,'cyan',isDebug=self.isDebug)
 
 if __name__ == '__main__':
     print(help(Spider))
