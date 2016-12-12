@@ -1,5 +1,3 @@
-[TOC]
-
 # dpspider-1.0  
 
 @(python)[大数据|爬虫|框架]
