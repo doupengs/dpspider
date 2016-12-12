@@ -1,9 +1,25 @@
-# dpspider-1.0 目录
+# dpspider-1.0
 
-* [dpspider-1.0 目录](#dpspider-1.0 目录)
- * [框架简介](##框架简介)
+* [框架简介](#框架简介)
+* [spider.py](#spider.py)
+ * [模块简介](##模块简介)
+ * [初始化的成员](##初始化的成员)
+ * [重写的方法](##重写的方法)
+* [insertmysql.py](#insertmysql.py)
+ * [1](##1)
+ * [2](##2)
+* [parser.py](#parser.py)
+ * [3](##3)
+ * [4](##4)
+* [download.py](#download.py)
+ * [5](##5)
+ * [6](##6)
+* [color.py](#color.py)
+ * [7](##7)
+ * [8](##8)
+* [反馈与建议](#反馈与建议)
 
-##框架简介
+# 框架简介
 
 >**dpspider-1.0** ： 一个轻量级Web[爬虫](http://baike.baidu.com/link?url=0HQZpaVPnDxHZnv_cnQBHL5SGLuLOMGa3FstKxUzluN5J39uVRRVya9Ca9Txkh4e9hffRCJG00e6_1k0KY_hzejB3gdtB_v6xqcESvNBTkC)框架
 - **1** .支持是否使用代理下载
@@ -11,13 +27,12 @@
 - **3** .支持Mysql数据库自动写入过程
 - **4** .支持redis数据库去重 
 
-## spider.py
-
-### 模块简介
+# spider.py
+## 模块简介
 
 >框架的主体，配置文件要继承的类
 
-###初始化的成员
+## 初始化的成员
 >  
 - **self.listUrls** : 最初的要爬取的列表页的所有链接
 - **self.pageUrls** : 存储通过列表页解析来的所有详情页的链接
@@ -59,31 +74,33 @@
  - **self.redisDb** : redis数据库，默认为0
  - **self.redisPassword** : 数据库的密码，默认为 None
  
-##insertmysql.py
+## 重写的方法
+ 
+# insertmysql.py
 
-###..........
+## 1
 
-###..........
+## 2
 
-## parser.py
+# parser.py
 
-###..........
+## 3
 
-###..........
+## 4
 
-## download.py
+# download.py
 
-###..........
+## 5
 
-###..........
+## 6
 
-## color.py
+# color.py
 
-###..........
+## 7
 
-###..........
+## 8
 
-## 反馈与建议
+# 反馈与建议
 
 - GITHUP地址：[窦朋 | doupeng](https://github.com/doupengs)
 - 微信公众号：[人生苦短遂学python](https://mp.weixin.qq.com/mp/homepage?__biz=MzI5MzI5NTQ4Mg==&hid=1&sn=fde1700cb5532eb84d227b1f6ded6838&uin=Njg4NTExNDQw&key=9ed31d4918c154c8f98e46aaf51029e25d006894bd336605c9ea269077414f400da2fd9110bf7810e535c7ca20c6c5b603eab7f647d52d77496e30ce9f13d357022d8408093b3456b3ce82c9a9069ceb&devicetype=Windows+10&version=62030053&lang=zh_CN&winzoom=1)
