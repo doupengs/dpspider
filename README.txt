@@ -64,7 +64,8 @@ class Spider(__builtin__.object)
  |              :self.mysqlCharset = 'utf8'
  |               默认编码为UTF-8
  |              :self.isMysqlRLF = False
- |               这个是违反mysql主键唯一的约束条件时没有插入数据库的sql语句的日志，相当于去重，默认不生成repeat.log文件
+ |               这个是违反mysql主键唯一的约束条件时没有插入数据库的sql语句的日志，相当于去重，
+ |               默认不生成repeat.log文件
  |              :self.isInsertMysql = False
  |               这是在配置网址xpath或者re正则的时候先关闭连接数据库，测试抓取正常是启用，默认不连接数据库
  |          :self.RD params as follows:
