@@ -11,7 +11,7 @@ from dpspider.insertmysql import InsertMysql
 
 class Spider(object):
     '''
-    :class: lightweight spiderFrame
+    :class: A lightweight Web Crawling and Web Scraping framework
     :author: doupeng
     '''
     def __init__(self):
