@@ -44,7 +44,8 @@ printText('[Error]: A data insert into mysql failed','red')
 printText('[WARING]: The primary key exist in mysql','yellow')
 spider.py
 printText('[WARING]spider.py Spider getData: response|%s %s','yellow')
-printText('%s:\n%s'%(key,jsonData[key]))#--打印KEY:VALUE--
+printText('[COLUMN]:%s'%key,'black','white',isDebug=self.isDebug)#--打印KEY--
+printText(jsonData[key],isDebug=self.isDebug)#--打印VALUE--
 printText("[WARING]:%s '%s' exist in redis",'yellow')
 printText('#'*60,'purple')#--分割线--
 printText('[INFO]NUM_SUCCESS: %d','cyan')
