@@ -10,7 +10,7 @@ class Parser(object):
     :class: this is a html parser
     :author: doupeng
     '''
-    def __init__(self,data=None,response=None,url=None,isDebug=True):
+    def __init__(self,data=None,response=None,url=None,decode='utf8',isDebug=True):
         '''
         :param data: default=None <class str|unicode response.text>
         :param response: default=None <class Response>
@@ -18,13 +18,14 @@ class Parser(object):
         :param isDebug: default=True <class bool> or <class str|'print'>
         '''
         try:
+            self.decode = decode
             self.isDebug = isDebug
             self.data = data
             self.response = response
             self.url = response.request.url if response and not url else url
             self.__html = etree.HTML(self.data) if data else None
         except Exception as e:
-            printText('[Error]parser.py Parser __init__: %s'%e,'red',isDebug=self.isDebug)
+            printText('[Error]parser.py Parser __init__: %s'%e,'red',decode=self.decode,isDebug=self.isDebug)
 
     def xpathOne(self,xpath):
         '''
@@ -35,13 +36,13 @@ class Parser(object):
         try:
             labels = self.__html.xpath(xpath)
         except:
-            printText("[Error]parser.py Parser xpathOne: %s %s"%(xpath,self.url),"red",isDebug=self.isDebug)
+            printText("[Error]parser.py Parser xpathOne: %s %s"%(xpath,self.url),"red",decode=self.decode,isDebug=self.isDebug)
             return Parser("")
         if len(labels) > 0:
             label = labels[0]
             return Parser(etree.tostring(label,encoding="unicode",method="html")) if isinstance(label,etree._Element) else Parser(label)
         else:
-            printText("[WARING]parser.py Parser xpathOne parse None: %s %s"%(xpath,self.url),"yellow",isDebug=self.isDebug)
+            printText("[WARING]parser.py Parser xpathOne parse None: %s %s"%(xpath,self.url),"yellow",decode=self.decode,isDebug=self.isDebug)
             return Parser("")
 
     def xpathAll(self,xpath):
@@ -53,12 +54,12 @@ class Parser(object):
         try:
             labels = self.__html.xpath(xpath)
         except:
-            printText("[Error]parser.py Parser xpathAll: %s %s"%(xpath,self.url),"red",isDebug=self.isDebug)
+            printText("[Error]parser.py Parser xpathAll: %s %s"%(xpath,self.url),"red",decode=self.decode,isDebug=self.isDebug)
             return []
         if len(labels)>0:
             return [Parser(etree.tostring(label,encoding="unicode",method="html")) if isinstance(label,etree._Element) else Parser(label) for label in labels]
         else:
-            printText("[WARING]parser.py Parser xpathAll parse None: %s %s"%(xpath,self.url),"yellow",isDebug=self.isDebug)
+            printText("[WARING]parser.py Parser xpathAll parse None: %s %s"%(xpath,self.url),"yellow",decode=self.decode,isDebug=self.isDebug)
             return []
 
     def reOne(self,pattern):
@@ -70,12 +71,12 @@ class Parser(object):
         try:
             labels = re.findall(pattern,self.data)
         except:
-            printText("[Error]parser.py Parser reOne: %s %s"%(pattern,self.url),"red",isDebug=self.isDebug)
+            printText("[Error]parser.py Parser reOne: %s %s"%(pattern,self.url),"red",decode=self.decode,isDebug=self.isDebug)
             return Parser("")
         if len(labels) > 0:
             return Parser(labels[0])
         else:
-            printText("[WARING]parser.py Parser reOne parse None: %s %s"%(pattern,self.url),"yellow",isDebug=self.isDebug)
+            printText("[WARING]parser.py Parser reOne parse None: %s %s"%(pattern,self.url),"yellow",decode=self.decode,isDebug=self.isDebug)
             return Parser("")
 
     def reAll(self,pattern):
@@ -87,12 +88,12 @@ class Parser(object):
         try:
             labels = re.findall(pattern,self.data)
         except:
-            printText("[Error]parser.py Parser reAll: %s %s"%(pattern,self.url),"red",isDebug=self.isDebug)
+            printText("[Error]parser.py Parser reAll: %s %s"%(pattern,self.url),"red",decode=self.decode,isDebug=self.isDebug)
             return []
         if len(labels)>0:
             return [Parser(label) for label in labels]
         else:
-            printText("[WARING]parser.py Parser reAll parse None: %s %s"%(pattern,self.url),"yellow",isDebug=self.isDebug)
+            printText("[WARING]parser.py Parser reAll parse None: %s %s"%(pattern,self.url),"yellow",decode=self.decode,isDebug=self.isDebug)
             return []
 
     def reSub(self,pattern,goalStr,count=0):
@@ -105,7 +106,7 @@ class Parser(object):
         try:
             data = re.compile(pattern).sub(goalStr,self.data,count)
         except Exception as e:
-            printText("[Error]parser.py Parser reSub: %s"%e,"red",isDebug=self.isDebug)
+            printText("[Error]parser.py Parser reSub: %s"%e,"red",decode=self.decode,isDebug=self.isDebug)
             return self
         return Parser(data)
 
@@ -138,7 +139,7 @@ class Parser(object):
         try:
             integer = int(self.data)
         except:
-            printText("[Error]parser.py Parser int: self.data must be int","red",isDebug=self.isDebug)
+            printText("[Error]parser.py Parser int: self.data must be int","red",decode=self.decode,isDebug=self.isDebug)
             return 0
         return integer
 
@@ -150,7 +151,7 @@ class Parser(object):
         try:
             f = float(self.data)
         except:
-            printText("[Error]parser.py Parser float:self.data must be float","red",isDebug=self.isDebug)
+            printText("[Error]parser.py Parser float:self.data must be float","red",decode=self.decode,isDebug=self.isDebug)
             return 0.0
         return f
 
