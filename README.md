@@ -40,7 +40,8 @@
 * **self.listUrls** : 最初的要爬取的列表页的所有链接
 * **self.pageUrls** : 存储通过列表页解析来的所有详情页的链接
 * **self.encoding** : 网页的编码，默认为UTF-8
-* **self.threadNum** : 设置开启的线程数量，默认开启10个线程
+* **self.threadNum** : 开启的线程数量，默认开启10个线程
+* **self.decode** : 将打印语句解码成unicode，默认为 UTF-8,例如数据需要UTF-8，而输出终端需要gbk，将输出语句解码，解决打印乱码问题
 * **self.isDebug** : 设置是否要打印日志信息，不支持打印彩色的终端可以设置为 print 就是正常的打印，默认为 True 就是彩色打印，False就是关闭所有打印信息，一般程序后台运行时可用
 * **self.downloader** 下载器的参数设置:
  * **self.useProxyMaxNum** : 每个代理的连续使用的最大次数，当连续使用次数达到这个数字时，强制更换代理，防止代理被封，默认为5次
@@ -78,6 +79,21 @@
  * **self.redisPassword** : 数据库的密码，默认为 None
  
 #### 重写的方法
+
+* **parseList(**self,data,response**)**
+```markdown
+通过data(是一个Parser类，可以看parser.py来了解这个类下的方法)，response，解析的所有详情页的url添加到self.pageUrls中.self.pageUrls.append(url)
+```
+
+* **parsePage(**self,data,response**)**
+```markdown
+通过data(是一个Parser类，可以看parser.py来了解这个类下的方法)，response，解析的所有你想要的字段,并返回一个字典<br>
+{
+colunm1:value1,
+colunm2:value2,
+...
+}
+```
  
 # insertmysql.py
 
