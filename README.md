@@ -1,22 +1,18 @@
-# dpspider-1.0 目录
+# dpspider 目录
 
 * [框架简介](#框架简介)
 * [spider.py](#spiderpy)
- * [模块简介](#模块简介)
+ * [spider简介](#spider简介)
  * [初始化的成员](#初始化的成员)
- * [重写的方法](#重写的方法)
+ * [需要重写的方法](#需要重写的方法)
 * [insertmysql.py](#insertmysqlpy)
- * [1](#1)
- * [2](#2)
+ * [insertmysql简介](#insertmysql简介)
 * [parser.py](#parserpy)
- * [3](#3)
- * [4](#4)
+ * [parser简介](#parser简介)
 * [download.py](#downloadpy)
- * [5](#5)
- * [6](#6)
+ * [download简介](#download简介)
 * [color.py](#colorpy)
- * [7](#7)
- * [8](#8)
+ * [color简介](#color简介)
 * [反馈与建议](#反馈与建议)
 
 # 框架简介
@@ -30,7 +26,7 @@
 
 # spider.py
 
-#### 模块简介
+#### spider简介
 
 ```markdown
 框架的主体，配置文件要继承的类
@@ -70,7 +66,7 @@
  * **self.mysqlCharset** : 默认编码为 UTF-8
  * **self.isMysqlRLF** : 违反mysql主键唯一约束条件,没有插入数据库的sql语句，相当于去重，默认不生成repeat.log文件
  * **self.isInsertMysql** : 是否连接数据库，测试抓取正常时启用，默认不连接数据库
-* **self.RD** redis书籍库的参数设置:
+* **self.RD** redis数据库的参数设置:
  * **self.isUseRedis** : 是否使用redis数据库进行去重, 默认为 False
  * **self.redisMd5Key** : 如果使用redis去重，最好在 mysql 中设置一个字段来存储 md5值, 默认为 "MD5KEY", 同时将 md5值 作为redis的一个key存储，value值为mysql的表名
  * **self.redisHost** : 数据库的主机名，默认为本机 localhost
@@ -78,7 +74,7 @@
  * **self.redisDb** : redis数据库，默认为0
  * **self.redisPassword** : 数据库的密码，默认为 None
  
-#### 重写的方法
+#### 需要重写的方法
 
 * **parseList(**self,data,response**)**
 ```markdown
@@ -98,27 +94,38 @@ colunm2:value2,
  
 # insertmysql.py
 
-#### 1
+#### insertmysql简介
 
-#### 2
+```markdown
+数据写入模块
+如果数据插入失败会生成 fail.log
+可以选择是否生成违反主键唯一约束条件的插入语句，即 repeat.log
+```
 
 # parser.py
 
-#### 3
+#### parser简介
 
-#### 4
+```markdown
+选择 xpath 和 re 相结合的解析方法，方法很强大
+```
 
 # download.py
 
-#### 5
+#### download简介
 
-#### 6
+```markdown
+可以选择是否使用代理下载
+代理不能使用会自动更新下一个代理，还可以设置每个代理最大连续使用次数
+```
 
 # color.py
 
-#### 7
+#### color简介
 
-#### 8
+```markdown
+可选是否带有颜色打印，或者什么都不打印
+```
 
 # 反馈与建议
 
