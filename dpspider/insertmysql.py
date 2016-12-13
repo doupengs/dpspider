@@ -12,17 +12,19 @@ class InsertMysql(object):
     :class: link mysql databases and execute sql<"INSERT INTO TABLE (COLUMNS) VALUES (...)">
     :author: doupeng
     '''
-    def __init__(self,host,user,password,db,charset='utf8',isDebug=True):
+    def __init__(self,host,user,password,db,charset='utf8',decode='utf8',isDebug=True):
         '''
         :param host: <class str|host name>
         :param user: <class str|user name>
         :param password: <class str|password>
         :param db: <class str|database name>
         :param charset: default='utf8' <class str>
+        :param decode: default='utf8' <class str>
         :param isDebug: default=True <class bool> or <class str|'print'>
         '''
         self.__conn = MYSQL.connect(host,user,password,db,charset=charset)
         self.__cursor = self.__conn.cursor()
+        self.decode = decode
         self.isDebug = isDebug
         self.success = 0
         self.fail = 0
@@ -50,17 +52,17 @@ class InsertMysql(object):
             self.__cursor.execute(sql)
             self.__conn.commit()
             self.success += 1
-            printText('[INFO]: A data insert into mysql succeeded','cyan',isDebug=self.isDebug)
+            printText('[INFO]: A data insert into mysql succeeded','cyan',decode=self.decode,isDebug=self.isDebug)
             return True
         except Exception as e:
             if "for key 'PRIMARY'" not in str(e) and "1062" not in str(e):
                 self.fail += 1
-                printText('[Error]: A data insert into mysql failed','red',isDebug=self.isDebug)
+                printText('[Error]: A data insert into mysql failed','red',decode=self.decode,isDebug=self.isDebug)
                 with open('fail.log','a') as fail:
                     fail.write('%s\n\n%s\n\n'%(str(e),sql))
             else:
                 self.repeat += 1
-                printText('[WARING]: The primary key exist in mysql','yellow',isDebug=self.isDebug)
+                printText('[WARING]: The primary key exist in mysql','yellow',decode=self.decode,isDebug=self.isDebug)
                 if isRepeatLog:
                     with open('repeat.log','a') as repeat:
                         repeat.write('%s\n\n'%sql)
