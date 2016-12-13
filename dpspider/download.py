@@ -9,10 +9,11 @@ class Download(object):
     :class: use requests.request method,return response or None
     :author: doupeng
     '''
-    def __init__(self,max=5,proxyFilePath="proxyList.txt",isDebug=True):
+    def __init__(self,max=5,proxyFilePath="proxyList.txt",decode='utf8',isDebug=True):
         '''
         :param max: default=5 <class int|maximum use of each proxy>
         :param proxyFilePath: default="proxyList.txt" <class str|proxy file path>
+        :param decode: default='utf-8' <class str>
         :param isDebug: default=True <class bool> or <class str|'print'>
         :file: the format of each line in the proxyFile must be as follows
             1. http[s],http[s]://ip(\d+\.\d+\.\d+\.\d+):port(\d+)
@@ -21,6 +22,7 @@ class Download(object):
             4. ......
         '''
         try:
+            self.decode = decode
             self.isDebug = isDebug
             self.__max = max
             self.__index = 0
@@ -31,7 +33,7 @@ class Download(object):
             proxy = self.__proxiesList[self.__index].strip().split(",",1)
             self.__proxies = {proxy[0]:proxy[1]}
         except Exception as e:
-            printText('[Error]download.py Download __init__: %s'%e,'red',isDebug=self.isDebug)
+            printText('[Error]download.py Download __init__: %s'%e,'red',decode=self.decode,isDebug=self.isDebug)
 
     def download(self,method,url,proxyEnable=False,params=None,data=None,json=None,
                  headers=None,cookies=None,files=None,auth=None,timeout=None,
@@ -70,14 +72,14 @@ class Download(object):
                                             files=files,auth=auth,timeout=timeout,allow_redirects=allowRedirects,
                                             verify=verify,stream=stream,cert=cert)
             except Exception as e:
-                 printText("[Error]download.py Download download: %s"%e,"red",isDebug=self.isDebug)
+                 printText("[Error]download.py Download download: %s"%e,"red",decode=self.decode,isDebug=self.isDebug)
             return response
         #----use proxy------------------
         elif proxyEnable:
             try:
                 if self.__count < self.__max:
                     p = 'http' if 'http' in self.__proxies else 'https'
-                    printText("[INFO]use proxy: %s"%self.__proxies.get(p,'').replace(p+'://',''),"green",isDebug=self.isDebug)
+                    printText("[INFO]use proxy: %s"%self.__proxies.get(p,'').replace(p+'://',''),"green",decode=self.decode,isDebug=self.isDebug)
                     response = requests.request(method,url,params=params,data=data,json=json,headers=headers,cookies=cookies,
                                                 files=files,auth=auth,timeout=timeout,allow_redirects=allowRedirects,
                                                 proxies=self.__proxies,verify=verify,stream=stream,cert=cert)
@@ -108,7 +110,7 @@ class Download(object):
             self.__count = 0
         try:
             p = 'http' if 'http' in self.__proxies else 'https'
-            printText("[INFO]change proxy: %s"%self.__proxies.get(p,'').replace(p+'://',''),"cyan",isDebug=self.isDebug)
+            printText("[INFO]change proxy: %s"%self.__proxies.get(p,'').replace(p+'://',''),"cyan",decode=self.decode,isDebug=self.isDebug)
             response = requests.request(method,url,params=params,data=data,json=json,headers=headers,cookies=cookies,
                                         files=files,auth=auth,timeout=timeout,allow_redirects=allowRedirects,
                                         proxies=self.__proxies,verify=verify,stream=stream,cert=cert)
