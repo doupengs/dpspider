@@ -95,27 +95,27 @@ colunm2:value2,
 
 #### 运行效果图展示
 
-* '点击查看'[test.py](https://github.com/doupengs/dpspider/blob/master/test.py)使用'实例'
+* 点击查看 [test.py](https://github.com/doupengs/dpspider/blob/master/test.py) 使用`实例`
 
-![](https://github.com/doupengs/dpspider/blob/master/image/1.jpg)
+![](https://github.com/doupengs/dpspider/blob/master/image/1.jpg)<br>
 1.彩色打印，调试阶段，不进行数据入库和去重
 
-![](https://github.com/doupengs/dpspider/blob/master/image/2.png)
-2.redis中存在这个key的[WARING}
+![](https://github.com/doupengs/dpspider/blob/master/image/2.png)<br>
+2.`redis`中存在这个`key`的[WARING]
 
-![](https://github.com/doupengs/dpspider/blob/master/image/3.png)
-3.mysql中违反主键唯一约束条件的[WARING]
+![](https://github.com/doupengs/dpspider/blob/master/image/3.png)<br>
+3.`mysql`中违反主键唯一约束条件的[WARING]
 
-![](https://github.com/doupengs/dpspider/blob/master/image/4.png)
-4.mysql数据插入成功的[INFO]
+![](https://github.com/doupengs/dpspider/blob/master/image/4.png)<br>
+4.`mysql`数据插入成功的[INFO]
 
-![](https://github.com/doupengs/dpspider/blob/master/image/5.png)
-5.Parser类中xpath的[Error]和解析为空的[WARING]
+![](https://github.com/doupengs/dpspider/blob/master/image/5.png)<br>
+5.`Parser类`中`xpath`的[Error]和解析为空的[WARING]
 
-![](https://github.com/doupengs/dpspider/blob/master/image/6.png)
-6.download下载失败的[Error],从而response为None的[WARING]
+![](https://github.com/doupengs/dpspider/blob/master/image/6.png)<br>
+6.`download`下载失败的[Error],从而`response`为`None`的[WARING]
 
-![](https://github.com/doupengs/dpspider/blob/master/image/7.png)
+![](https://github.com/doupengs/dpspider/blob/master/image/7.png)<br>
 7.使用代理和更换代理的[INFO]
 
 # insertmysql.py
