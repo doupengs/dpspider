@@ -107,7 +107,7 @@ colunm2:value2,
 #### parser简介
 
 ```markdown
-选择 xpath 和 re 相结合的解析方法，方法很强大
+选择 xpath[(了解xpath)](http://www.w3school.com.cn/xpath/) 和 re 相结合的解析方法，方法很强大
 ```
 
 # download.py
