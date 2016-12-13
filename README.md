@@ -82,12 +82,13 @@
 
 * **parseList(**self,data,response**)**
 ```markdown
-通过data(是一个Parser类，可以看parser.py来了解这个类下的方法)，response，解析的所有详情页的url添加到self.pageUrls中.self.pageUrls.append(url)
+通过data(是一个Parser类，可以看parser.py来了解这个类下的方法)，response，解析的所有详情页的url添加到self.pageUrls中.
+self.pageUrls.append(url)
 ```
 
 * **parsePage(**self,data,response**)**
 ```markdown
-通过data(是一个Parser类，可以看parser.py来了解这个类下的方法)，response，解析的所有你想要的字段,并返回一个字典<br>
+通过data(是一个Parser类，可以看parser.py来了解这个类下的方法)，response，解析的所有你想要的字段,并返回一个字典
 {
 colunm1:value1,
 colunm2:value2,
