@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-def printText(string,textColor='',backgroundColor='',style='',isDebug=True):
+def printText(string,textColor='',backgroundColor='',style='',decode='utf8',isDebug=True):
     '''
     :param textColors: default='' <class str|'red','yellow','green','blue','cyan','purple','black','white'>
     :param backgroundColor: default='' <class str|'red','yellow','green','blue','cyan','purple','black','white'>
     :param style: default='' <class str|'bold','underline'>
+    :param decode: default='utf-8' <class str>
     :param isDebug: default=True <class bool> or <class str|'print'>
     :function: print color,do nothing,print
     '''
     if isDebug == 'print':
-        print(string)
+        print(string.decode(decode))
     if isDebug == True:
         textColors={
             'black'     : '\033[30m',
@@ -40,7 +41,7 @@ def printText(string,textColor='',backgroundColor='',style='',isDebug=True):
         backgroundColor = backgroundColors[backgroundColor] if backgroundColor in backgroundColors else ''
         style = styles[style] if style in styles else ''
         Textstyle = textColor + backgroundColor + style
-        print(Textstyle + string + '\033[0m')
+        print((Textstyle + string + '\033[0m').decode(decode))
 
 def helpLogging():
     '''
