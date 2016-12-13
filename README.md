@@ -4,7 +4,7 @@
 * [spider.py](#spiderpy)
  * [spider简介](#spider简介)
  * [初始化的成员](#初始化的成员)
- * [需要重写的方法](#需要重写的方法)
+ * [需要重载的方法](#需要重载的方法)
  * [运行效果图展示](#运行效果图展示)
 * [insertmysql.py](#insertmysqlpy)
  * [insertmysql简介](#insertmysql简介)
@@ -75,7 +75,7 @@
  * **self.redisDb** : redis数据库，默认为0
  * **self.redisPassword** : 数据库的密码，默认为 None
  
-#### 需要重写的方法
+#### 需要重载的方法
 
 * **parseList(**self,data,response**)**
 ```markdown
@@ -98,25 +98,39 @@ colunm2:value2,
 * 点击查看 [test.py](https://github.com/doupengs/dpspider/blob/master/test.py) 使用`实例`
 
 ![](https://github.com/doupengs/dpspider/blob/master/image/1.jpg)<br>
+```markdown
 1.彩色打印，调试阶段，不进行数据入库和去重
+```
 
 ![](https://github.com/doupengs/dpspider/blob/master/image/2.png)<br>
-2.`redis`中存在这个`key`的[WARING]
+```markdown
+2.redis数据库中存在这个 key 的[WARING]
+```
 
 ![](https://github.com/doupengs/dpspider/blob/master/image/3.png)<br>
-3.`mysql`中违反主键唯一约束条件的[WARING]
+```markdown
+3.mysql数据库违反主键唯一约束条件的[WARING]
+```
 
 ![](https://github.com/doupengs/dpspider/blob/master/image/4.png)<br>
-4.`mysql`数据插入成功的[INFO]
+```markdown
+4.mysql数据库插入成功的[INFO]
+```
 
 ![](https://github.com/doupengs/dpspider/blob/master/image/5.png)<br>
-5.`Parser类`中`xpath`的[Error]和解析为空的[WARING]
+```markdown
+5.Parser类中 xpath 的[Error]和解析为空的[WARING]
+```
 
 ![](https://github.com/doupengs/dpspider/blob/master/image/6.png)<br>
-6.`download`下载失败的[Error],从而`response`为`None`的[WARING]
+```markdown
+6.Download类下载失败的[Error],从而response为None的[WARING]
+```
 
 ![](https://github.com/doupengs/dpspider/blob/master/image/7.png)<br>
+```markdown
 7.使用代理和更换代理的[INFO]
+```
 
 # insertmysql.py
 
@@ -156,6 +170,7 @@ colunm2:value2,
 
 # 反馈与建议
 
+* 希望反馈您的宝贵意见、建议和使用中的BUG
 * GITHUP地址：[窦朋 | doupeng](https://github.com/doupengs)
 * 微信公众号：[人生苦短遂学python](https://mp.weixin.qq.com/mp/homepage?__biz=MzI5MzI5NTQ4Mg==&hid=1&sn=fde1700cb5532eb84d227b1f6ded6838&uin=Njg4NTExNDQw&key=9ed31d4918c154c8f98e46aaf51029e25d006894bd336605c9ea269077414f400da2fd9110bf7810e535c7ca20c6c5b603eab7f647d52d77496e30ce9f13d357022d8408093b3456b3ce82c9a9069ceb&devicetype=Windows+10&version=62030053&lang=zh_CN&winzoom=1)
 * 邮箱：<doupeng1993@sina.com>
