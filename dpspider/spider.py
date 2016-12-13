@@ -19,8 +19,9 @@ class Spider(object):
         :members init:
             :self.listUrls: default=[] <class list|list urls>
             :self.pageUrls: default=[] <class list|pages urls>
-            :self.encoding: default='utf-8' <class str|it's response.encoding>
+            :self.encoding: default='utf8' <class str|it's response.encoding>
             :self.threadNum: default=10 <class int|open the number of threads>
+            :self.decode: default='utf8' <class str>
             :self.isDebug: default=True <class bool> or <class str|'print'>
             :self.downloader params as follows:
                 :self.useProxyMaxNum = 5
@@ -58,8 +59,9 @@ class Spider(object):
         '''
         self.listUrls = []
         self.pageUrls = []
-        self.encoding = 'utf-8'
+        self.encoding = 'utf8'
         self.threadNum = 10
+        self.decode = 'utf8'
         self.isDebug = True
         #----download params-------------
         self.useProxyMaxNum = 5
@@ -128,7 +130,7 @@ class Spider(object):
             data = Parser(response.text,response,isDebug=self.isDebug)
             return data,response
         else:
-            printText('[WARING]spider.py Spider getData: response|%s %s'%(str(response),url),'yellow',isDebug=self.isDebug)
+            printText('[WARING]spider.py Spider getData: response|%s %s'%(str(response),url),'yellow',decode=self.decode,isDebug=self.isDebug)
         return None
 
     def runThreadingParse(self,urlListLen,urlList,func):
@@ -175,7 +177,8 @@ class Spider(object):
         columns = ('(%s)'%(','.join(['%s']*len(jsonData))))%tuple(keys)
         values = tuple([jsonData[key] for key in keys])
         for key in keys:
-            printText('%s:\n%s'%(key,jsonData[key]),isDebug=self.isDebug)
+            printText('[COLUMN]:%s'%key,'black','white',decode=self.decode,isDebug=self.isDebug)
+            printText(jsonData[key],decode=self.decode,isDebug=self.isDebug)
         if self.isInsertMysql:
             if self.isUseRedis:
                 MD5KEY = jsonData[self.redisMd5Key]
@@ -184,11 +187,10 @@ class Spider(object):
                         self.RD.set(MD5KEY,self.mysqlTableName)
                 else:
                     self.__repeatRedis += 1
-                    printText('[COLUMN]:%s'%key,'black','white',isDebug=self.isDebug)
-                    printText(jsonData[key],isDebug=self.isDebug)
+                    printText("[WARING]:%s '%s' exist in redis"%(self.redisMd5Key,MD5KEY),'yellow',decode=self.decode,isDebug=self.isDebug)
             else:
                 self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF)
-        printText('#'*60,'purple',isDebug=self.isDebug)
+        printText('#'*60,'purple',decode=self.decode,isDebug=self.isDebug)
 
     def run(self):
         '''
@@ -198,7 +200,6 @@ class Spider(object):
             :self.RD:<class Redis>
         :function: run from here
         '''
-
         self.downloader = Download(max=self.useProxyMaxNum,proxyFilePath=self.proxyFilePath,isDebug=self.isDebug)
         if self.isInsertMysql:
             self.IM = InsertMysql(host=self.mysqlHost,user=self.mysqlUser,password=self.mysqlPassword,
@@ -208,12 +209,12 @@ class Spider(object):
         self.runThreadingParse(len(self.listUrls),self.listUrls,self.parseList)
         self.runThreadingParse(len(self.pageUrls),self.pageUrls,self.insertMysql)
         if self.isInsertMysql:
-            printText('[INFO]NUM_SUCCESS: %d'%self.IM.success,'cyan',isDebug=self.isDebug)
-            printText('[INFO]NUM_FAILED : %d'%self.IM.fail,'cyan',isDebug=self.isDebug)
+            printText('[INFO]NUM_SUCCESS: %d'%self.IM.success,'cyan',decode=self.decode,isDebug=self.isDebug)
+            printText('[INFO]NUM_FAILED : %d'%self.IM.fail,'cyan',decode=self.decode,isDebug=self.isDebug)
             if self.isUseRedis:
-                printText('[INFO]NUM_REPEAT : %d'%self.__repeatRedis,'cyan',isDebug=self.isDebug)
+                printText('[INFO]NUM_REPEAT : %d'%self.__repeatRedis,'cyan',decode=self.decode,isDebug=self.isDebug)
             else:
-                printText('[INFO]NUM_REPEAT : %d'%self.IM.repeat,'cyan',isDebug=self.isDebug)
+                printText('[INFO]NUM_REPEAT : %d'%self.IM.repeat,'cyan',decode=self.decode,isDebug=self.isDebug)
 
 if __name__ == '__main__':
     print(help(Spider))
