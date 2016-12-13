@@ -15,6 +15,7 @@ class Parser(object):
         :param data: default=None <class str|unicode response.text>
         :param response: default=None <class Response>
         :param url: default=None <class str>
+        :param decode: default='utf-8' <class str>
         :param isDebug: default=True <class bool> or <class str|'print'>
         '''
         try:
