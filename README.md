@@ -39,6 +39,13 @@
  * 如果`MySQL-python`安装失败，`windows`系统点击[这里](http://www.lfd.uci.edu/~gohlke/pythonlibs/#mysql-python)下载合适的版本
 * **redis>= 2.10** `pip install redis` **安装即可**
 
+#### 数据库
+
+* **`redis`数据库 `windows`版**
+ * [redis-64bit.zip](http://pan.baidu.com/s/1pLrVxN1)
+ * [redis-32bit.zip](http://pan.baidu.com/s/1pL6O5Vt)
+* `mysql`数据库点击[这里](http://dev.mysql.com/downloads/installer)进入官网下载
+
 #### 安装方法
 
 ```markdown
