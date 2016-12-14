@@ -48,9 +48,9 @@
 ```
 
 * `xxx.tar.gz` 历史所有版本
-* [dpspider-1.0.0.tar.gz](http://pan.baidu.com/s/1eSr7Jyy)
+ * [dpspider-1.0.0.tar.gz](http://pan.baidu.com/s/1eSr7Jyy)
 * `xxx.exe` 历史所有版本
-* [dpspider-1.0.0.win-amd64.exe](http://pan.baidu.com/s/1kUSvjOr)
+ * [dpspider-1.0.0.win-amd64.exe](http://pan.baidu.com/s/1kUSvjOr)
 
 # spider.py
 
