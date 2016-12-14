@@ -8,8 +8,8 @@ class Mypider(Spider):
         Spider.__init__(self)
         self.listUrls = ['http://www.tmtpost.com/new/%d'%page for page in range(1,2)]
         self.mysqlUser = 'root'
-        self.mysqlPassword = 'isoftadmin'
-        self.mysqlDb = 'mysql'
+        self.mysqlPassword = 'doupeng123'
+        self.mysqlDb = 'doupeng'
         self.mysqlTableName = 'doupeng_test'
         # self.isInsertMysql = True
         # self.isUseRedis = True
