@@ -3,6 +3,7 @@
 * [框架简介](#框架简介)
 * [下载安装](#下载安装)
  * [依赖库](#依赖库)
+ * [数据库](#数据库)
  * [安装方法](#安装方法)
 * [spider.py](#spiderpy)
  * [spider简介](#spider简介)
@@ -44,7 +45,7 @@
 * **`redis`数据库 `windows`版**
  * [redis-64bit.zip](http://pan.baidu.com/s/1pLrVxN1)
  * [redis-32bit.zip](http://pan.baidu.com/s/1pL6O5Vt)
-* `mysql`数据库点击[这里](http://dev.mysql.com/downloads/installer)进入官网下载
+* **`mysql`数据库 `windows`版 点击[这里](http://dev.mysql.com/downloads/installer)进入官网下载**
 
 #### 安装方法
 
