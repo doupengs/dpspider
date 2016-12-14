@@ -1,6 +1,9 @@
 # dpspider 目录
 
 * [框架简介](#框架简介)
+* [下载安装](#下载安装)
+ * [依赖库](#依赖库)
+ * [安装方法](#安装方法)
 * [spider.py](#spiderpy)
  * [spider简介](#spider简介)
  * [初始化的成员](#初始化的成员)
@@ -24,6 +27,30 @@
 * 2.支持自定义多线程数量
 * 3.支持Mysql数据库自动写入过程
 * 4.支持redis数据库去重
+
+# 下载安装
+
+#### 依赖库
+
+* **requests >= 2.11** `pip install requests` **安装即可**
+* **lxml >= 3.6** `pip install lxml` **安装**
+ * 如果`lxml`安装失败，`windows`系统点击[这里](http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml)下载合适的版本
+* **MySQL-python >= 1.2.3** `pip install MySQL-python` **安装**
+ * 如果`MySQL-python`安装失败，`windows`系统点击[这里](http://www.lfd.uci.edu/~gohlke/pythonlibs/#mysql-python)下载合适的版本
+* **redis>= 2.10** `pip install redis` **安装即可**
+
+#### 安装方法
+
+```markdown
+1.python setup.py install
+2.pip install dpspider-x.x.x.tar.gz ( win | linux | macOS )
+3.dpspider-x.x.x.win-amd64.exe ( windows可执行文件，双击安装) 
+```
+
+* `xxx.tar.gz` 历史所有版本
+* [dpspider-1.0.0.tar.gz](http://pan.baidu.com/s/1eSr7Jyy)
+* `xxx.exe` 历史所有版本
+* [dpspider-1.0.0.win-amd64.exe](http://pan.baidu.com/s/1kUSvjOr)
 
 # spider.py
 
