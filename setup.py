@@ -3,11 +3,10 @@
 
 from setuptools import setup,find_packages
 
-
 setup(
       name="dpspider",
-      version="1.0.0",
-      description="A lightweight Web Crawling and Web Scraping framework",
+      version="2.0.1",
+      description="A lightweight Web Crawling and Web Scraping framework.(v2.x.x add distributed processing)",
       author="doupeng",
       author_email = 'doupeng1993@sina.com',
       url="https://github.com/doupengs/dpspider",
