@@ -43,8 +43,9 @@ printText('[INFO]: A data insert into mysql succeeded','cyan')
 printText('[Error]: A data insert into mysql failed','red')
 printText('[WARING]: The primary key exist in mysql','yellow')
 spider.py
+printText('[INFO] pageUrl: %s','cyan')
 printText('[WARING]spider.py Spider getData: response|%s %s','yellow')
-printText('[COLUMN]:%s'%key,'black','white',isDebug=self.isDebug)#--打印KEY--
+printText('[COLUMN]:%s'%,'black','white',isDebug=self.isDebug)#--打印KEY--
 printText(jsonData[key],isDebug=self.isDebug)#--打印VALUE--
 printText("[WARING]:%s '%s' exist in redis",'yellow')
 printText('#'*60,'purple')#--分割线--
@@ -52,4 +53,20 @@ printText('[INFO]NUM_SUCCESS: %d','cyan')
 printText('[INFO]NUM_FAILED : %d','cyan')
 printText('[INFO]NUM_REPEAT : %d','cyan')#--mysql--
 printText('[INFO]NUM_REPEAT : %d','cyan')#--redis--
+masterspider.py
+printText('[INFO]:Try get results...','cyan')
+printText('[INFO]: task and result queue are both empty','cyan')
+printText('[WARING]: result queue is empty','yellow')
+printText('[INFO]: master exit','cyan')
+printText('[INFO] put task-pageUrl: %s','cyan')
+printText('[INFO]NUM_SUCCESS: %d','cyan')
+printText('[INFO]NUM_FAILED : %d','cyan')
+printText('[INFO]NUM_REPEAT : %d','cyan')#--mysql--
+printText('[INFO]NUM_REPEAT : %d','cyan')#--redis--
+downloadworker.py
+printText('[INFO]: Try to connect to server %s','cyan')
+printText('[INFO]: Connect success','green')
+printText('[INFO] Now taskQueue num: %d','cyan')
+printText('[INFO] Get task url: %s','cyan')
+printText('[INFO]: Task run over and put into resultQueue success','green')
 ===========================================================================
