@@ -96,25 +96,38 @@ class Spider(object):
         self.redisPort = 6379
         self.redisDb = 0
         self.redisPassword = None
-        self.__repeatRedis = 0
+        self._repeatRedis = 0
 
     def parseList(self,data,response):
         '''
         :param data: <class Parser>
         :param response: <class Response>
-        :function: append url parsed from self.listUrls to self.pageUrls
+        :function: parse pageUrls here
+        :return: <class list|urls>
         '''
-        pass
+        urls = []
+        return urls
 
     def parsePage(self,data,response):
         '''
         :param data: <class Parser>
         :param response: <class Response>
         :function: parse columns here,which you need
-        :return:<class dict|jsonData>
+        :return: <class dict|jsonData>
         '''
         jsonData = {}
         return jsonData
+
+    def appendUrls(self,data,response):
+        '''
+        :param data: <class Parser>
+        :param response: <class Response>
+        :function: append url parsed from self.listUrls to self.pageUrls
+        '''
+        urls = self.parseList(data,response)
+        for url in urls:
+            printText('[INFO] pageUrl: %s'%url,'cyan',decode=self.decode,isDebug=self.isDebug)
+            self.pageUrls.append(url)
 
     def getData(self,url):
         '''
@@ -186,7 +199,7 @@ class Spider(object):
                     if self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF):
                         self.RD.set(MD5KEY,self.mysqlTableName)
                 else:
-                    self.__repeatRedis += 1
+                    self._repeatRedis += 1
                     printText("[WARING]:%s '%s' exist in redis"%(self.redisMd5Key,MD5KEY),'yellow',decode=self.decode,isDebug=self.isDebug)
             else:
                 self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF)
@@ -201,18 +214,21 @@ class Spider(object):
         :function: run from here
         '''
         self.downloader = Download(max=self.useProxyMaxNum,proxyFilePath=self.proxyFilePath,isDebug=self.isDebug)
+        #--------------------------------------
         if self.isInsertMysql:
             self.IM = InsertMysql(host=self.mysqlHost,user=self.mysqlUser,password=self.mysqlPassword,
                                   db=self.mysqlDb,charset=self.mysqlCharset,isDebug=self.isDebug)
             if self.isUseRedis:
                 self.RD = redis.Redis(host=self.redisHost,port=self.redisPort,db=self.redisDb,password=self.redisPassword)
-        self.runThreadingParse(len(self.listUrls),self.listUrls,self.parseList)
+        #--------------------------------------
+        self.runThreadingParse(len(self.listUrls),self.listUrls,self.appendUrls)
         self.runThreadingParse(len(self.pageUrls),self.pageUrls,self.insertMysql)
+        #--------------------------------------
         if self.isInsertMysql:
             printText('[INFO]NUM_SUCCESS: %d'%self.IM.success,'cyan',decode=self.decode,isDebug=self.isDebug)
             printText('[INFO]NUM_FAILED : %d'%self.IM.fail,'cyan',decode=self.decode,isDebug=self.isDebug)
             if self.isUseRedis:
-                printText('[INFO]NUM_REPEAT : %d'%self.__repeatRedis,'cyan',decode=self.decode,isDebug=self.isDebug)
+                printText('[INFO]NUM_REPEAT : %d'%self._repeatRedis,'cyan',decode=self.decode,isDebug=self.isDebug)
             else:
                 printText('[INFO]NUM_REPEAT : %d'%self.IM.repeat,'cyan',decode=self.decode,isDebug=self.isDebug)
 
