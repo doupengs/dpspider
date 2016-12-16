@@ -18,16 +18,20 @@
  * [download简介](#download简介)
 * [color.py](#colorpy)
  * [color简介](#color简介)
+* [跳转 dpspider-2.0.1 更新简介](https://github.com/doupengs/dpspider/blob/master/README-2.0.1.md)
 * [反馈与建议](#反馈与建议)
 
 # 框架简介
 
-**dpspider-1.0** ： 一个轻量级Web[爬虫](http://baike.baidu.com/link?url=0HQZpaVPnDxHZnv_cnQBHL5SGLuLOMGa3FstKxUzluN5J39uVRRVya9Ca9Txkh4e9hffRCJG00e6_1k0KY_hzejB3gdtB_v6xqcESvNBTkC)框架
+**dpspider-2.0.1** ： 一个轻量级Web[爬虫](http://baike.baidu.com/link?url=0HQZpaVPnDxHZnv_cnQBHL5SGLuLOMGa3FstKxUzluN5J39uVRRVya9Ca9Txkh4e9hffRCJG00e6_1k0KY_hzejB3gdtB_v6xqcESvNBTkC)框架
 
-* 1.支持是否使用代理下载
-* 2.支持自定义多线程数量
-* 3.支持Mysql数据库自动写入过程
-* 4.支持redis数据库去重
+* 1.支持打印日志颜色输出
+* 2.支持是否使用代理下载，自动切换代理
+* 3.支持自定义多线程数量
+* 4.强大的解析网页方法，解析想要的文本更快更准
+* 5.支持Mysql数据库自动写入过程
+* 6.支持redis数据库去重
+* 7.加入小型分布式的概念，多台服务器共同完成爬去任务
 
 # 下载安装
 
@@ -56,9 +60,9 @@
 ```
 
 * `xxx.tar.gz` 最新版本
- * [dpspider-1.0.0.tar.gz](http://pan.baidu.com/s/1eSr7Jyy)
+ * [dpspider-2.0.1.tar.gz](http://pan.baidu.com/s/1hsoLVvu)
 * `xxx.exe` 最新版本
- * [dpspider-1.0.0.win-amd64.exe](http://pan.baidu.com/s/1kUSvjOr)
+ * [dpspider-2.0.1.win-amd64.exe](http://pan.baidu.com/s/1c2wvHp2)
 
 # spider.py
 
