@@ -55,9 +55,9 @@
 3.dpspider-x.x.x.win-amd64.exe ( windows可执行文件，双击安装) 
 ```
 
-* `xxx.tar.gz` 历史所有版本
+* `xxx.tar.gz` 最新版本
  * [dpspider-1.0.0.tar.gz](http://pan.baidu.com/s/1eSr7Jyy)
-* `xxx.exe` 历史所有版本
+* `xxx.exe` 最新版本
  * [dpspider-1.0.0.win-amd64.exe](http://pan.baidu.com/s/1kUSvjOr)
 
 # spider.py
@@ -114,13 +114,14 @@
 
 * **parseList(**self,data,response**)**
 ```markdown
-通过data(是一个Parser类，可以看parser.py来了解这个类下的方法)，response，解析的所有详情页的url添加到self.pageUrls中.
-self.pageUrls.append(url)
+通过data(是一个Parser类，可以看parser.py来了解这个类下的方法)，response，解析的所有详情页的url添加到urls列表中
+并返回列表urls
 ```
 
 * **parsePage(**self,data,response**)**
 ```markdown
-通过data(是一个Parser类，可以看parser.py来了解这个类下的方法)，response，解析的所有你想要的字段,并返回一个字典
+通过data(是一个Parser类，可以看parser.py来了解这个类下的方法)，response，解析的所有你想要的字段添加到jsonData字典中
+并返回字典jsonData
 {
 colunm1:value1,
 colunm2:value2,
@@ -130,7 +131,7 @@ colunm2:value2,
 
 #### 运行效果图展示
 
-* 点击查看 [test.py](https://github.com/doupengs/dpspider/blob/master/test.py) `实例源码`
+* 点击查看 [testSpider.py](https://github.com/doupengs/dpspider/blob/master/test/testSpider.py) `实例源码`
 
 ![](https://github.com/doupengs/dpspider/blob/master/image/1.jpg)<br>
 ```markdown
