@@ -5,8 +5,13 @@ import queue
 from multiprocessing.managers import BaseManager
 from dpspider.spider import *
 
+paramsInfo = {}
 taskQueue = queue.Queue()
 resultQueue = queue.Queue()
+
+def returnParamsInfo():
+    global paramsInfo
+    return paramsInfo
 
 def returnTaskQueue():
     global taskQueue
@@ -78,7 +83,7 @@ class MasterSpider(Spider):
         '''
         :function: *new function* get result from resultQueue and then insertMysql
         '''
-        printText('[INFO]:Try get results...','cyan',decode=self.decode,isDebug=self.isDebug)
+        printText('[INFO]Try get results:','cyan',decode=self.decode,isDebug=self.isDebug)
         while True:
             try:
                 response = self.__result.get(timeout=self.getResultTimeout)
@@ -120,14 +125,37 @@ class MasterSpider(Spider):
                                   db=self.mysqlDb,charset=self.mysqlCharset,isDebug=self.isDebug)
             if self.isUseRedis:
                 self.RD = redis.Redis(host=self.redisHost,port=self.redisPort,db=self.redisDb,password=self.redisPassword)
+        paramsInfo = {
+            'decode':self.decode,
+            'isDebug':self.isDebug,
+            'useProxyMaxNum':self.useProxyMaxNum,
+            'proxyFilePath':self.proxyFilePath,
+            'method':self.method,
+            'proxyEnable':self.proxyEnable,
+            'params':self.params,
+            'data':self.data,
+            'json':self.json,
+            'headers':self.headers,
+            'cookies':self.cookies,
+            'files':self.files,
+            'auth':self.auth,
+            'timeout':self.timeout,
+            'allowRedirects':self.allowRedirects,
+            'verify':self.verify,
+            'stream':self.stream,
+            'cert':self.cert,
+        }
         #--------------------------------------
         QueueManager.register('getTaskQueue', callable=returnTaskQueue)
         QueueManager.register('getResultQueue', callable=returnResultQueue)
+        QueueManager.register('getParamsInfo', callable=returnParamsInfo)
         self.__manager = QueueManager(address=(self.serverHost,self.serverPort), authkey=self.serverAuthkey)
         self.__manager.start()
+        self.__params = self.__manager.getParamsInfo()
         self.__task = self.__manager.getTaskQueue()
         self.__result = self.__manager.getResultQueue()
         #--------------------------------------
+        self.__params.update(paramsInfo)
         self.runThreadingParse(len(self.listUrls),self.listUrls,self.appendUrls)
         self.getResult()
         #--------------------------------------
