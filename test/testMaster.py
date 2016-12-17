@@ -17,7 +17,7 @@ class MyMasterSpider(MasterSpider):
         # self.isInsertMysql = True
         # self.isUseRedis = True
         # self.proxyEnable = True
-        #self.isDebug = 'print'
+        # self.isDebug = 'print'
 
     def parseList(self,data,response):
         urls = []
