@@ -13,7 +13,7 @@ setup(
       license="GPL",
       packages= find_packages(),
       install_requires=[
-          'requests>=2.11',
+          'requests>=2.10',
           'lxml>=3.6',
           'MySQL-python>=1.2.3',
           'redis>=2.10'
