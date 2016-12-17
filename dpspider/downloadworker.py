@@ -15,61 +15,46 @@ class DownloadWorker(object):
             :self.serverHost = None
             :self.serverPort = 5000
             :self.authkey = None
-            :self.decode = 'utf8'
-            :self.isDebug = True
-            :self.downloader params as follows:
-                :self.useProxyMaxNum = 5
-                :self.proxyFilePath = 'proxyList.txt'
-                :self.method = 'GET'
-                :self.proxyEnable = False
-                :self.params = None
-                :self.data = None
-                :self.json = None
-                :self.headers = None
-                :self.cookies = None
-                :self.files = None
-                :self.auth = None
-                :self.timeout = None
-                :self.allowRedirects = True
-                :self.verify = None
-                :self.stream = None
-                :self.cert = None
         '''
         self.serverHost = None
         self.serverPort = 5000
         self.serverAuthkey = None
         self.decode = 'utf8'
         self.isDebug = True
-        #----download params-------------
-        self.useProxyMaxNum = 5
-        self.proxyFilePath = 'proxyList.txt'
-        self.method = 'GET'
-        self.proxyEnable = False
-        self.params = None
-        self.data = None
-        self.json = None
-        self.headers = None
-        self.cookies = None
-        self.files = None
-        self.auth = None
-        self.timeout = None
-        self.allowRedirects = True
-        self.verify = None
-        self.stream = None
-        self.cert = None
-
-        self.downloader = Download()
 
     def run(self):
-        self.downloader = Download(max=self.useProxyMaxNum,proxyFilePath=self.proxyFilePath,isDebug=self.isDebug)
+        '''
+        :function: run from here
+        '''
+        QueueManager.register('getParamsInfo')
         QueueManager.register('getTaskQueue')
         QueueManager.register('getResultQueue')
         printText('[INFO]: Try to connect to server %s'%self.serverHost,'cyan',decode=self.decode,isDebug=self.isDebug)
         manager = QueueManager(address=(self.serverHost,self.serverPort),authkey=self.serverAuthkey)
         manager.connect()
         printText('[INFO]: Connect success','green',decode=self.decode,isDebug=self.isDebug)
+        params = manager.getParamsInfo()
         task = manager.getTaskQueue()
         result = manager.getResultQueue()
+        self.decode = params.get('decode','utf8')
+        self.isDebug = params.get('isDebug',True)
+        self.useProxyMaxNum = params.get('useProxyMaxNum',5)
+        self.proxyFilePath = params.get('proxyFilePath','proxyList.txt')
+        self.method = params.get('method','GET')
+        self.proxyEnable = params.get('proxyEnable',False)
+        self.params = params.get('params',None)
+        self.data = params.get('data',None)
+        self.json = params.get('json',None)
+        self.headers = params.get('headers',None)
+        self.cookies = params.get('cookies',None)
+        self.files = params.get('files',None)
+        self.auth = params.get('auth',None)
+        self.timeout = params.get('timeout',None)
+        self.allowRedirects = params.get('allowRedirects',True)
+        self.verify = params.get('verify',None)
+        self.stream = params.get('stream',None)
+        self.cert = params.get('cert',None)
+        self.downloader = Download(max=self.useProxyMaxNum,proxyFilePath=self.proxyFilePath,isDebug=self.isDebug)
         while True:
             try:
                 printText('[INFO] Now taskQueue num: %d'%task.qsize(),'cyan',decode=self.decode,isDebug=self.isDebug)
