@@ -15,6 +15,8 @@ class DownloadWorker(object):
             :self.serverHost = None
             :self.serverPort = 5000
             :self.authkey = None
+            :self.decode = 'utf8'
+            :self.isDebug = True
         '''
         self.serverHost = None
         self.serverPort = 5000
