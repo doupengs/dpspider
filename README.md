@@ -37,7 +37,7 @@
 
 #### 依赖库
 
-* **requests >= 2.11** `pip install requests` **安装即可**
+* **requests >= 2.10** `pip install requests` **安装即可**
 * **lxml >= 3.6** `pip install lxml` **安装**
  * 如果`lxml`安装失败，`windows`系统点击[这里](http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml)下载合适的版本
 * **MySQL-python >= 1.2.3** `pip install MySQL-python` **安装**
@@ -60,9 +60,9 @@
 ```
 
 * `xxx.tar.gz` 最新版本
- * [dpspider-2.0.1.tar.gz](http://pan.baidu.com/s/1hsoLVvu)
+ * [dpspider-2.0.1.tar.gz](http://pan.baidu.com/s/1pKEGaEJ)
 * `xxx.exe` 最新版本
- * [dpspider-2.0.1.win-amd64.exe](http://pan.baidu.com/s/1c2wvHp2)
+ * [dpspider-2.0.1.win-amd64.exe](http://pan.baidu.com/s/1kVFe1Wb)
 
 # spider.py
 
