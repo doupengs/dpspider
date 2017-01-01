@@ -10,6 +10,7 @@
  * [初始化的成员](#初始化的成员)
  * [需要重载的方法](#需要重载的方法)
  * [运行效果图展示](#运行效果图展示)
+
 * [insertmysql.py](#insertmysqlpy)
  * [insertmysql简介](#insertmysql简介)
 * [parser.py](#parserpy)
@@ -18,20 +19,20 @@
  * [download简介](#download简介)
 * [color.py](#colorpy)
  * [color简介](#color简介)
-* [跳转 dpspider-2.0.1 更新简介](https://github.com/doupengs/dpspider/blob/master/README-2.0.1.md)
 * [反馈与建议](#反馈与建议)
 
 # 框架简介
 
-**dpspider-2.0.1** ： 一个轻量级Web[爬虫](http://baike.baidu.com/link?url=0HQZpaVPnDxHZnv_cnQBHL5SGLuLOMGa3FstKxUzluN5J39uVRRVya9Ca9Txkh4e9hffRCJG00e6_1k0KY_hzejB3gdtB_v6xqcESvNBTkC)框架
+**dpspider** ： 一个轻量级Web[爬虫](http://baike.baidu.com/link?url=0HQZpaVPnDxHZnv_cnQBHL5SGLuLOMGa3FstKxUzluN5J39uVRRVya9Ca9Txkh4e9hffRCJG00e6_1k0KY_hzejB3gdtB_v6xqcESvNBTkC)框架
 
 * 1.支持打印日志颜色输出
 * 2.支持是否使用代理下载，自动切换代理
 * 3.支持自定义多线程数量
-* 4.强大的解析网页方法，解析想要的文本更快更准
-* 5.支持Mysql数据库自动写入过程
-* 6.支持redis数据库去重
-* 7.加入小型分布式的概念，多台服务器共同完成爬去任务
+* 4.支持自定义多进程数量
+* 5.强大的解析网页方法，解析想要的文本更快更准
+* 6.支持Mysql数据库自动写入过程
+* 7.支持redis数据库去重
+* 8.加入小型分布式的概念，多台服务器共同完成下载任务
 
 # 下载安装
 
@@ -73,16 +74,19 @@
 ```
 #### 初始化的成员
 
-* **self.listUrls** : 最初的要爬取的列表页的所有链接
-* **self.pageUrls** : 存储通过列表页解析来的所有详情页的链接
-* **self.encoding** : 网页的编码，默认为UTF-8
-* **self.threadNum** : 开启的线程数量，默认开启10个线程
-* **self.decode** : 将打印语句解码成unicode，默认为 UTF-8,例如数据需要UTF-8，而输出终端需要gbk，将输出语句解码，解决打印乱码问题
-* **self.isDebug** : 设置是否要打印日志信息，不支持打印彩色的终端可以设置为 print 就是正常的打印，默认为 True 就是彩色打印，False就是关闭所有打印信息，一般程序后台运行时可用
+* **self.listGetUrls** : 最初的要爬取的列表页的所有GET链接
+* **self.listPostUrl** : 最初需要爬取的列表页的POST链接
+* **self.postPages** : 最初需要爬取的列表页的POST链接的所有页数
+* **self.postPageName** : 最初需要爬取的列表页的POST链接的页数KEY的名字
+* **self.encoding** : 网页的编码，两级可分别设置，默认均为UTF-8
+* **self.threadNum** : 开启的线程数量，默认开启20个线程
+* **self.logFile** : 如果有，将输出写入文件，没有就打印到控制台
+* **self.color** : 打印是否带有颜色
+* **self.debug** : 有四个等级，0 什么都不输出，1 只输出[Error],2 输出[Error]和[WARING],3 输出[Error]，[WARING]和[INFO],4 全输出
 * **self.downloader** 下载器的参数设置:
- * **self.useProxyMaxNum** : 每个代理的连续使用的最大次数，当连续使用次数达到这个数字时，强制更换代理，防止代理被封，默认为5次
+ * **self.useProxyMaxNum** : 每个代理的连续使用的最大次数，当连续使用次数达到这个数字时，强制更换代理，防止代理被封，默认为10次
  * **self.proxyFilePath** :  代理文件的路径，默认为当前路径下的 proxyList.txt 文件
- * **self.method** : 请求方法，默认为 GET 方法
+ * **self.method** : 请求方法，默认为 (GET,GET) 方法, 还有（POST,GET）
  * **self.proxyEnable** : 是否使用代理，默认为 False
  * **下面这些是请求时可能用到可选参数，相对常会用到的: data, headers, cookies, timeout**
  * **self.params** = None
@@ -108,7 +112,7 @@
  * **self.isInsertMysql** : 是否连接数据库，测试抓取正常时启用，默认不连接数据库
 * **self.RD** redis数据库的参数设置:
  * **self.isUseRedis** : 是否使用redis数据库进行去重, 默认为 False
- * **self.redisMd5Key** : 如果使用redis去重，最好在 mysql 中设置一个字段来存储 md5值, 默认为 "MD5KEY", 同时将 md5值 作为redis的一个key存储，value值为mysql的表名
+ * **self.redisKey** : 如果使用redis去重，作为redis的一个key存储，value值为mysql的表名
  * **self.redisHost** : 数据库的主机名，默认为本机 localhost
  * **self.redisPort** : 数据库的端口号，默认为6379
  * **self.redisDb** : redis数据库，默认为0
@@ -137,39 +141,14 @@ colunm2:value2,
 
 * 点击查看 [testSpider.py](https://github.com/doupengs/dpspider/blob/master/test/testSpider.py) `实例源码`
 
-![](https://github.com/doupengs/dpspider/blob/master/image/1.jpg)<br>
+![](https://github.com/doupengs/dpspider/blob/master/image/master.gif)<br>
 ```markdown
-1.彩色打印，调试阶段，不进行数据入库和去重
+1.master
 ```
 
-![](https://github.com/doupengs/dpspider/blob/master/image/2.png)<br>
+![](https://github.com/doupengs/dpspider/blob/master/image/worker.gif)<br>
 ```markdown
-2.redis数据库中存在这个 key 的[WARING]
-```
-
-![](https://github.com/doupengs/dpspider/blob/master/image/3.png)<br>
-```markdown
-3.mysql数据库违反主键唯一约束条件的[WARING]
-```
-
-![](https://github.com/doupengs/dpspider/blob/master/image/4.png)<br>
-```markdown
-4.mysql数据库插入成功的[INFO]
-```
-
-![](https://github.com/doupengs/dpspider/blob/master/image/5.png)<br>
-```markdown
-5.Parser类中 xpath 的[Error]和解析为空的[WARING]
-```
-
-![](https://github.com/doupengs/dpspider/blob/master/image/6.png)<br>
-```markdown
-6.Download类下载失败的[Error],从而response为None的[WARING]
-```
-
-![](https://github.com/doupengs/dpspider/blob/master/image/7.png)<br>
-```markdown
-7.使用代理和更换代理的[INFO]
+2.worker
 ```
 
 # insertmysql.py
@@ -178,8 +157,8 @@ colunm2:value2,
 
 ```markdown
 数据写入模块
-如果数据插入失败会生成 fail.log
-可以选择是否生成违反主键唯一约束条件的插入语句，即 repeat.log
+如果数据插入失败会生成 insertMysqlFail.log
+可以选择是否生成违反主键唯一约束条件的插入语句，即 insertMysqlRepeat.log
 ```
 
 # parser.py
