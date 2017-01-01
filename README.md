@@ -5,12 +5,15 @@
  * [依赖库](#依赖库)
  * [数据库](#数据库)
  * [安装方法](#安装方法)
+* [运行效果图展示](#运行效果图展示)
 * [spider.py](#spiderpy)
  * [spider简介](#spider简介)
  * [初始化的成员](#初始化的成员)
  * [需要重载的方法](#需要重载的方法)
- * [运行效果图展示](#运行效果图展示)
-
+* [distspider.py](#distspiderpy)
+ * [spider简介](#spider简介)
+* [multiworker.py](#multiworkerpy)
+ * [multiworker简介](#multiworker简介)
 * [insertmysql.py](#insertmysqlpy)
  * [insertmysql简介](#insertmysql简介)
 * [parser.py](#parserpy)
@@ -64,6 +67,20 @@
  * [dpspider-2.0.1.tar.gz](http://pan.baidu.com/s/1pKEGaEJ)
 * `xxx.exe` 最新版本
  * [dpspider-2.0.1.win-amd64.exe](http://pan.baidu.com/s/1kVFe1Wb)
+ 
+# 运行效果图展示
+
+* 点击查看 [test](https://github.com/doupengs/dpspider/tree/master/test) `实例源码`
+
+![](https://github.com/doupengs/dpspider/blob/master/image/master.gif)<br>
+```markdown
+1.master
+```
+
+![](https://github.com/doupengs/dpspider/blob/master/image/worker.gif)<br>
+```markdown
+2.worker
+```
 
 # spider.py
 
@@ -137,18 +154,33 @@ colunm2:value2,
 }
 ```
 
-#### 运行效果图展示
+# distspider.py
 
-* 点击查看 [testSpider.py](https://github.com/doupengs/dpspider/blob/master/test/testSpider.py) `实例源码`
+#### distspider简介
 
-![](https://github.com/doupengs/dpspider/blob/master/image/master.gif)<br>
 ```markdown
-1.master
+spider.py使用的是多线程
+distspider.py 是将下载任务交给 multiworker.py， 采用分布式多进程
+所以就没有线程的设置 self.threadNum 多了下面三个成员
 ```
 
-![](https://github.com/doupengs/dpspider/blob/master/image/worker.gif)<br>
+* **self.serverHost** : 服务器地址
+* **self.serverPort** : 服务器端口号
+* **self.serverAuthkey** : 密钥
+
+# multiworker.py
+
+#### multiworker简介
+
 ```markdown
-2.worker
+distspider.py 的下载器，设置的参数如下(与 distspider 参数相对应)
+processNum=4 进程数
+serverHost='127.0.0.1' 服务器地址
+serverAuthkey=''密钥 
+serverPort=5000 服务器端口号
+logFile=None
+color=True
+debug=4
 ```
 
 # insertmysql.py
@@ -168,6 +200,7 @@ colunm2:value2,
 ```markdown
 选择 xpath 和 re 相结合的解析方法，方法很强大
 ```
+
 点击了解[xpath](http://www.w3school.com.cn/xpath/)
 
 # download.py
@@ -184,7 +217,7 @@ colunm2:value2,
 #### color简介
 
 ```markdown
-可选是否带有颜色打印，或者什么都不打印
+可选是否带有颜色打印，或者设置输出的级别
 ```
 
 # 反馈与建议
