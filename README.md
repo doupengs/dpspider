@@ -64,9 +64,9 @@
 ```
 
 * `xxx.tar.gz` 最新版本
- * [dpspider-2.0.1.tar.gz](http://pan.baidu.com/s/1pKEGaEJ)
+ * [dpspider-2.1.0.tar.gz](http://pan.baidu.com/s/1o7EIKFC)
 * `xxx.exe` 最新版本
- * [dpspider-2.0.1.win-amd64.exe](http://pan.baidu.com/s/1kVFe1Wb)
+ * [dpspider-2.1.0.win-amd64.exe](http://pan.baidu.com/s/1hrVPUZy)
  
 # 运行效果图展示
 
@@ -223,6 +223,6 @@ debug=4
 # 反馈与建议
 
 * 希望反馈您的宝贵意见、建议和使用中的BUG.
-* GITHUP地址：[窦朋 | doupeng](https://github.com/doupengs)
+* GITHUP地址：[窦朋 | doupengs](https://github.com/doupengs)
 * 微信公众号：[人生苦短遂学python](https://mp.weixin.qq.com/mp/homepage?__biz=MzI5MzI5NTQ4Mg==&hid=1&sn=fde1700cb5532eb84d227b1f6ded6838&uin=Njg4NTExNDQw&key=9ed31d4918c154c8f98e46aaf51029e25d006894bd336605c9ea269077414f400da2fd9110bf7810e535c7ca20c6c5b603eab7f647d52d77496e30ce9f13d357022d8408093b3456b3ce82c9a9069ceb&devicetype=Windows+10&version=62030053&lang=zh_CN&winzoom=1)
 * 邮箱：<doupeng1993@sina.com>
