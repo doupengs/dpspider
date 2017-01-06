@@ -90,6 +90,7 @@ class Spider(object):
         self.redisPassword = None
         #7.2---- other params ----
         self.redisKey = ''
+        self.isRedisKeyUrl = True
         self._repeatRedis = 0
         #8==== manager params ====
         self.serverHost = None
@@ -121,9 +122,18 @@ class Spider(object):
                         result = self.parseList(data,response)
                         printText('[INFO]downloading listUrl: %s'%getUrl,logFile=self.logFile,color=self.color,debug=self.debug)
                         for url in result:
-                            self._task.put((url,2,1))
-                            self._taskNum += 1
-                            printText('[INFO]pageUrl: %s'%url,logFile=self.logFile,color=self.color,debug=self.debug)
+                            if self.isUseRedis and self.isRedisKeyUrl:
+                                if not self.RD.get(url) == self.mysqlTableName:
+                                    self._task.put((url,2,1))
+                                    self._taskNum += 1
+                                    printText('[INFO]new pageUrl: %s'%url,logFile=self.logFile,color=self.color,debug=self.debug)
+                                else:
+                                    self._repeatRedis += 1
+                                    printText("[WARING]:pageUrl %s exist in redis"%url,logFile=self.logFile,color=self.color,debug=self.debug)
+                            else:
+                                self._task.put((url,2,1))
+                                self._taskNum += 1
+                                printText('[INFO]pageUrl: %s'%url,logFile=self.logFile,color=self.color,debug=self.debug)
                     else:
                         response.encoding = self.encoding[1]
                         data = Parser(response.text,response,logFile=self.logFile,color=self.color,debug=self.debug)
@@ -183,13 +193,17 @@ class Spider(object):
         if self.isInsertMysql:
             if self.isUseRedis:
                 redisKey = jsonData[self.redisKey]
-                if not self.RD.get(redisKey) == self.mysqlTableName:
+                if self.isRedisKeyUrl:
                     if self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF):
                         self.RD.set(redisKey,self.mysqlTableName)
                 else:
-                    self._repeatRedis += 1
-                    printText("[WARING]:%s '%s' exist in redis"%(self.redisKey,redisKey),
-                              logFile=self.logFile,color=self.color,debug=self.debug)
+                    if not self.RD.get(redisKey) == self.mysqlTableName:
+                        if self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF):
+                            self.RD.set(redisKey,self.mysqlTableName)
+                    else:
+                        self._repeatRedis += 1
+                        printText("[WARING]:%s %s exist in redis"%(self.redisKey,redisKey),
+                                  logFile=self.logFile,color=self.color,debug=self.debug)
             else:
                 self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF)
         printText(' -%s- NO.%d -%s- '%('*'*15,self._printNum,'*'*15),'black','white','bold',
