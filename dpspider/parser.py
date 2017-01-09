@@ -40,13 +40,14 @@ class Parser(object):
             labels = self._html.xpath(xpath)
         except Exception as e:
             printText("[Error]parser.py Parser xpathOne:%s %s %s"%(e,xpath,self.url),logFile=self.logFile,color=self.color,debug=self.debug)
-            return Parser("")
+            return Parser(data='',url=self.url,logFile=self.logFile,color=self.color,debug=self.debug)
         if len(labels) > 0:
             label = labels[0]
-            return Parser(etree.tostring(label,encoding="unicode",method="html")) if isinstance(label,etree._Element) else Parser(label)
+            return Parser(data=etree.tostring(label,encoding="unicode",method="html"),url=self.url,logFile=self.logFile,color=self.color,
+            debug=self.debug) if isinstance(label,etree._Element) else Parser(data=label,url=self.url,logFile=self.logFile,color=self.color,debug=self.debug)
         else:
             printText("[WARING]parser.py Parser xpathOne parse None:%s %s"%(xpath,self.url),logFile=self.logFile,color=self.color,debug=self.debug)
-            return Parser("")
+            return Parser(data='',url=self.url,logFile=self.logFile,color=self.color,debug=self.debug)
 
     def xpathAll(self,xpath):
         '''
@@ -60,7 +61,9 @@ class Parser(object):
             printText("[Error]parser.py Parser xpathAll:%s %s %s"%(e,xpath,self.url),logFile=self.logFile,color=self.color,debug=self.debug)
             return []
         if len(labels)>0:
-            return [Parser(etree.tostring(label,encoding="unicode",method="html")) if isinstance(label,etree._Element) else Parser(label) for label in labels]
+            return [Parser(data=etree.tostring(label,encoding="unicode",method="html"),url=self.url,logFile=self.logFile,color=self.color,
+            debug=self.debug) if isinstance(label,etree._Element) else Parser(data=label,url=self.url,logFile=self.logFile,color=self.color,
+            debug=self.debug) for label in labels]
         else:
             printText("[WARING]parser.py Parser xpathAll parse None:%s %s"%(xpath,self.url),logFile=self.logFile,color=self.color,debug=self.debug)
             return []
@@ -75,12 +78,12 @@ class Parser(object):
             labels = re.findall(pattern,self.data)
         except Exception as e:
             printText("[Error]parser.py Parser reOne:%s %s %s"%(e,pattern,self.url),logFile=self.logFile,color=self.color,debug=self.debug)
-            return Parser("")
+            return Parser(data='',url=self.url,logFile=self.logFile,color=self.color,debug=self.debug)
         if len(labels) > 0:
-            return Parser(labels[0])
+            return Parser(data=labels[0],url=self.url,logFile=self.logFile,color=self.color,debug=self.debug)
         else:
             printText("[WARING]parser.py Parser reOne parse None:%s %s"%(pattern,self.url),logFile=self.logFile,color=self.color,debug=self.debug)
-            return Parser("")
+            return Parser(data='',url=self.url,logFile=self.logFile,color=self.color,debug=self.debug)
 
     def reAll(self,pattern):
         '''
@@ -94,7 +97,7 @@ class Parser(object):
             printText("[Error]parser.py Parser reAll:%s %s %s"%(e,pattern,self.url),logFile=self.logFile,color=self.color,debug=self.debug)
             return []
         if len(labels)>0:
-            return [Parser(label) for label in labels]
+            return [Parser(data=label,url=self.url,logFile=self.logFile,color=self.color,debug=self.debug) for label in labels]
         else:
             printText("[WARING]parser.py Parser reAll parse None:%s %s"%(pattern,self.url),logFile=self.logFile,color=self.color,debug=self.debug)
             return []
@@ -111,7 +114,7 @@ class Parser(object):
         except Exception as e:
             printText("[Error]parser.py Parser reSub:%s"%e,logFile=self.logFile,color=self.color,debug=self.debug)
             return self
-        return Parser(data)
+        return Parser(data=data,url=self.url,logFile=self.logFile,color=self.color,debug=self.debug)
 
     def str(self):
         '''
