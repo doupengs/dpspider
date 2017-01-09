@@ -38,7 +38,7 @@ class InsertMysql(object):
         self._conn.close()
         printText('[INFO]:mysql connect close',logFile=self.logFile,color=self.color,debug=self.debug)
 
-    def insertMysql(self,table,columns,values,isMysqlRLF=False):
+    def insertMysql(self,table,columns,values,isMysqlFLF=True,isMysqlRLF=False):
         '''
         :param table: <class str|mysql table name>
         :param isRepeatLog: <class bool|create repeat.log or not>
@@ -67,8 +67,9 @@ class InsertMysql(object):
             if "for key 'PRIMARY'" not in str(e) and "1062" not in str(e):
                 self.fail += 1
                 printText('[Error]:Insert into mysql failed',logFile=self.logFile,color=self.color,debug=self.debug)
-                with open('insertMysqlFail.log','a') as fail:
-                    fail.write('%s %s\n%s\n'%(time,e,sql))
+                if isMysqlFLF:
+                    with open('insertMysqlFail.log','a') as fail:
+                        fail.write('%s %s\n%s\n'%(time,e,sql))
             else:
                 self.repeat += 1
                 printText('[WARING]:The primary key exist in mysql',logFile=self.logFile,color=self.color,debug=self.debug)
