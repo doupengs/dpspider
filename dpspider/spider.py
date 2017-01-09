@@ -73,6 +73,7 @@ class Spider(object):
         self.redisPassword = None
         #7.2---- other params ----
         self.redisKey = ''
+        self.isRedisKeyUrl = True
         self._repeatRedis = 0
 
     def md5(self,string):
@@ -96,21 +97,22 @@ class Spider(object):
         nStart = 0
         nEnd = self.threadNum
         urlListLen = len(urlList)
-        while nEnd < urlListLen + self.threadNum:
-            threads = []
-            for item in urlList[nStart:nEnd]:
-                if method == 'POST' and self.postPageName:
-                    self.data[self.postPageName] = item
-                    t = threading.Thread(target=func,args=(method,self.listPostUrl,queue,copy(self.data)))
-                else:
-                    t = threading.Thread(target=func,args=(method,item,queue))
-                threads.append(t)
-            for t in threads:
-                t.start()
-            for t in threads:
-                t.join()
-            nStart += self.threadNum
-            nEnd += self.threadNum
+        if urlListLen > 0:
+            while nEnd < urlListLen + self.threadNum:
+                threads = []
+                for item in urlList[nStart:nEnd]:
+                    if method == 'POST' and self.postPageName:
+                        self.data[self.postPageName] = item
+                        t = threading.Thread(target=func,args=(method,self.listPostUrl,queue,copy(self.data)))
+                    else:
+                        t = threading.Thread(target=func,args=(method,item,queue))
+                    threads.append(t)
+                for t in threads:
+                    t.start()
+                for t in threads:
+                    t.join()
+                nStart += self.threadNum
+                nEnd += self.threadNum
 
     def downloadResponse(self,method,url,queue,postData=None):
         '''
@@ -139,30 +141,39 @@ class Spider(object):
         :function: get a response from queue,and use func parse this response
         '''
         while True:
-            if self.runThreadingDownloadEnd and queue.empty():
+            if queue.empty() and self.runThreadingDownloadEnd:
                 break
             try:
                 if isListResponse and self.postPageName:
-                    response,postPage = queue.get()
+                    response,postPage = queue.get(timeout=0.1)
                     response.encoding = self.encoding[0]
                 else:
-                    response,postPage = queue.get(),None
+                    response,postPage = queue.get(timeout=0.1),None
                     response.encoding = self.encoding[1]
                 data = Parser(response.text,response,logFile=self.logFile,color=self.color,debug=self.debug)
                 result = func(data,response)
                 if isinstance(result,list):
-                    self.pageGetUrls += result
                     if postPage:
                         printText('[INFO]downloading listUrl: %s  %s'%(response.request.url,'%s:%s'%(self.postPageName,postPage)),
                                   logFile=self.logFile,color=self.color,debug=self.debug)
                     else:
                         printText('[INFO]downloading listUrl: %s'%response.request.url,logFile=self.logFile,color=self.color,debug=self.debug)
                     for url in result:
-                        printText('[INFO]pageUrl: %s'%url,logFile=self.logFile,color=self.color,debug=self.debug)
+                        if self.isUseRedis and self.isRedisKeyUrl:
+                            if not self.RD.get(url) == self.mysqlTableName:
+                                self.pageGetUrls.append(url)
+                                printText('[INFO]new pageUrl:%s'%url,logFile=self.logFile,color=self.color,debug=self.debug)
+                            else:
+                                self._repeatRedis += 1
+                                printText("[WARING]:pageUrl %s exist in redis"%url,logFile=self.logFile,color=self.color,debug=self.debug)
+                        else:
+                            self.pageGetUrls.append(url)
+                            printText('[INFO]pageUrl: %s'%url,logFile=self.logFile,color=self.color,debug=self.debug)
                 if isinstance(result,dict):
                     self.insertMysql(result)
             except Exception as e:
-                printText('[Error]:spider.py Spider getOneResponseParse: %s'%e,logFile=self.logFile,color=self.color,debug=self.debug)
+                if str(e):
+                    printText('[Error]:spider.py Spider getOneResponseParse: %s'%e,logFile=self.logFile,color=self.color,debug=self.debug)
 
     def parseList(self,data,response):
         '''
@@ -198,16 +209,20 @@ class Spider(object):
         if self.isInsertMysql:
             if self.isUseRedis:
                 redisKey = jsonData[self.redisKey]
-                if not self.RD.get(redisKey) == self.mysqlTableName:
+                if self.isRedisKeyUrl:
                     if self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF):
                         self.RD.set(redisKey,self.mysqlTableName)
                 else:
-                    self._repeatRedis += 1
-                    printText("[WARING]:%s '%s' exist in redis"%(self.redisKey,redisKey),'yellow',
-                              logFile=self.logFile,color=self.color,debug=self.debug)
+                    if not self.RD.get(redisKey) == self.mysqlTableName:
+                        if self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF):
+                            self.RD.set(redisKey,self.mysqlTableName)
+                    else:
+                        self._repeatRedis += 1
+                        printText("[WARING]:%s %s exist in redis"%(self.redisKey,redisKey),
+                                  logFile=self.logFile,color=self.color,debug=self.debug)
             else:
                 self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF)
-        printText(' -%s- NO.%d -%s- '%('*'*15,self._printNum,'*'*15),'black','white',style='bold',
+        printText(' -%s- NO.%d -%s- '%('*'*15,self._printNum,'*'*15),'black','white','bold',
                   logFile=self.logFile,color=self.color,debug=self.debug)
 
     def run(self):
