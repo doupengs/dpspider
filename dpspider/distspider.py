@@ -80,6 +80,7 @@ class Spider(object):
         self.mysqlCharset = 'utf8'
         #6.2---- InsertMysql.insertMysql params ----
         self.mysqlTableName = ''
+        self.isMysqlFLF = True
         self.isMysqlRLF = False
         #7==== redis params ====
         self.isUseRedis = False
@@ -194,18 +195,18 @@ class Spider(object):
             if self.isUseRedis:
                 redisKey = jsonData[self.redisKey]
                 if self.isRedisKeyUrl:
-                    if self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF):
+                    if self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlFLF,self.isMysqlRLF):
                         self.RD.set(redisKey,self.mysqlTableName)
                 else:
                     if not self.RD.get(redisKey) == self.mysqlTableName:
-                        if self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF):
+                        if self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlFLF,self.isMysqlRLF):
                             self.RD.set(redisKey,self.mysqlTableName)
                     else:
                         self._repeatRedis += 1
                         printText("[WARING]:%s %s exist in redis"%(self.redisKey,redisKey),
                                   logFile=self.logFile,color=self.color,debug=self.debug)
             else:
-                self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlRLF)
+                self.IM.insertMysql(self.mysqlTableName,columns,values,self.isMysqlFLF,self.isMysqlRLF)
         printText(' -%s- NO.%d -%s- '%('*'*15,self._printNum,'*'*15),'black','white','bold',
                   logFile=self.logFile,color=self.color,debug=self.debug)
 
