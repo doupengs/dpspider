@@ -75,9 +75,9 @@ dpspider：一个轻量级Web爬虫框架
 ```
 
 * `xxx.tar.gz` 最新版本
- * [dpspider-2.1.0.tar.gz](http://pan.baidu.com/s/1o7EIKFC)
+ * [dpspider-2.1.1.tar.gz](http://pan.baidu.com/s/1kVFL8s3)
 * `xxx.exe` 最新版本
- * [dpspider-2.1.0.win-amd64.exe](http://pan.baidu.com/s/1hrVPUZy)
+ * [dpspider-2.1.1.win-amd64.exe](http://pan.baidu.com/s/1o8dLHTS)
  
 # 运行效果图展示
 
@@ -141,6 +141,7 @@ dpspider：一个轻量级Web爬虫框架
 * **self.RD** redis数据库的参数设置:
  * **self.isUseRedis** : 是否使用redis数据库进行去重, 默认为 False
  * **self.redisKey** : 如果使用redis去重，作为redis的一个key存储，value值为mysql的表名
+ * **self.isRedisKeyUrl** : 如果redisKey是详情页的url，url作为去重依据，默认值为True，则这个详情页会在第一层过滤，不会再下载，节约资源
  * **self.redisHost** : 数据库的主机名，默认为本机 localhost
  * **self.redisPort** : 数据库的端口号，默认为6379
  * **self.redisDb** : redis数据库，默认为0
