@@ -75,9 +75,9 @@ dpspider：一个轻量级Web爬虫框架
 ```
 
 * `xxx.tar.gz` 最新版本
- * [dpspider-2.1.1.tar.gz](http://pan.baidu.com/s/1kVFL8s3)
+ * [dpspider-2.1.11.tar.gz](http://pan.baidu.com/s/1sl0GlXV)
 * `xxx.exe` 最新版本
- * [dpspider-2.1.1.win-amd64.exe](http://pan.baidu.com/s/1o8dLHTS)
+ * [dpspider-2.1.11.win-amd64.exe](http://pan.baidu.com/s/1o8Jdpge)
  
 # 运行效果图展示
 
@@ -136,7 +136,8 @@ dpspider：一个轻量级Web爬虫框架
  * **self.mysqlDb** : 数据库的库名
  * **self.mysqlTableName** : 数据库库下的表名
  * **self.mysqlCharset** : 默认编码为 UTF-8
- * **self.isMysqlRLF** : 违反mysql主键唯一约束条件,没有插入数据库的sql语句，相当于去重，默认不生成repeat.log文件
+ * **self.isMysqlFLF** : 插入失败的sql语句日志，默认不生成insertMysqlFail.log文件
+ * **self.isMysqlRLF** : 违反mysql主键唯一约束条件,没有插入数据库的sql语句，相当于去重，默认不生成insertMysqlRepeat.log文件
  * **self.isInsertMysql** : 是否连接数据库，测试抓取正常时启用，默认不连接数据库
 * **self.RD** redis数据库的参数设置:
  * **self.isUseRedis** : 是否使用redis数据库进行去重, 默认为 False
