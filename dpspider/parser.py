@@ -204,7 +204,10 @@ class Parser(object):
             hour = SZ.group(5) if SZ.group(5) else u'00'
             minute = SZ.group(6) if SZ.group(6) else u'00'
             second = SZ.group(7) if SZ.group(7) else u'00'
-            dt = datetime.datetime.strptime('%s%s%s%s%s%s'%(year,mouth,day,hour,minute,second),'%Y%m%d%H%M%S')
+            if len(year) == 4:
+                dt = datetime.datetime.strptime('%s%s%s%s%s%s'%(year,mouth,day,hour,minute,second),'%Y%m%d%H%M%S')
+            elif len(year)  == 2:
+                dt = datetime.datetime.strptime('%s%s%s%s%s%s'%(year,mouth,day,hour,minute,second),'%y%m%d%H%M%S')
             strDt = dt.strftime(timeStrFormat)
         else:
             dtf = datetime.datetime.now()
