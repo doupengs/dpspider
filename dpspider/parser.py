@@ -2,6 +2,7 @@
 #coding:utf-8
 
 import re
+import datetime
 from lxml import etree
 from .color import printText
 
@@ -160,6 +161,61 @@ class Parser(object):
             printText("[Error]parser.py Parser float:%s"%e,logFile=self.logFile,color=self.color,debug=self.debug)
             return 0.0
         return f
+    
+    def datetime(self,timeStrFormat="%Y-%m-%d %H:%M:%S",returnStrType=True):
+        '''
+        :param timeStrFormat: <class str|time format>
+        :param returnStrType: <class bool>
+        :return: True -> return string time
+                 False -> return datetime.datetime
+                 current time if search failed
+        '''
+        S = re.search(u"(\d+)\s*秒前",self.data)
+        M = re.search(u"(\d+)\s*分钟前",self.data)
+        H = re.search(u"(\d+)\s*小时前",self.data)
+        D = re.search(u"(\d+)\s*天前",self.data)
+        W = re.search(u"(\d+)\s*周前",self.data)
+        JT = re.search(u'今天\s*(\d+:\d+:?\d*)',self.data)
+        ZT = re.search(u'昨天\s*(\d+:\d+:?\d*)',self.data)
+        QT = re.search(u'前天\s*(\d+:\d+:?\d*)',self.data)
+        SZ = re.search(u'((\d+)[-/年](\d+)[-/月](\d+)日?\s*(\d*):?(\d*):?(\d*))',self.data)
+        if S or M or H or D or W:
+            seconds = int(S.group(1)) if S else 0
+            minutes = int(M.group(1)) if M else 0
+            hours   = int(H.group(1)) if H else 0
+            days    = int(D.group(1)) if D else 0
+            weeks   = int(W.group(1)) if W else 0
+            dtf = datetime.datetime.now() - datetime.timedelta(days,seconds,0,0,minutes,hours,weeks)
+            strDt = dtf.strftime(timeStrFormat)
+            dt = datetime.datetime.strptime(strDt,timeStrFormat)
+        elif JT or ZT or QT:
+            strTime = JT.group(1) if JT else ZT.group(1) if ZT else QT.group(1)
+            startDay = 1 if JT else 2 if ZT else 3
+            days = datetime.date.today() - datetime.date(1900,1,startDay)
+            try:
+                dt = datetime.datetime.strptime(strTime,"%H:%M:%S") + days
+            except:
+                dt = datetime.datetime.strptime(strTime,"%H:%M") + days
+            strDt = dt.strftime(timeStrFormat)
+        elif SZ:
+            year = SZ.group(2)
+            mouth = SZ.group(3)
+            day = SZ.group(4)
+            hour = SZ.group(5) if SZ.group(5) else u'00'
+            minute = SZ.group(6) if SZ.group(6) else u'00'
+            second = SZ.group(7) if SZ.group(7) else u'00'
+            dt = datetime.datetime.strptime('%s%s%s%s%s%s'%(year,mouth,day,hour,minute,second),'%Y%m%d%H%M%S')
+            strDt = dt.strftime(timeStrFormat)
+        else:
+            dtf = datetime.datetime.now()
+            strDt = dtf.strftime(timeStrFormat)
+            dt = datetime.datetime.strptime(strDt,timeStrFormat)
+            printText('[Error]:parser.py Parser datetime:search time format failed, return current time',
+                      logFile=self.logFile,color=self.color,debug=self.debug)
+        if returnStrType:
+            return strDt
+        else:
+            return dt
 
 if __name__ == '__main__':
     print(help(Parser))
