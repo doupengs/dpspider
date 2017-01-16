@@ -14,7 +14,7 @@ def printText(obj,textColor='',backgroundColor='',style='',logFile=None,color=Tr
     :param debug: default=4 <class int|0 NONE,1 [Error],2 [Error][WARING],3 [Error][WARING][INFO],4 ALL>
     :function: print obj with|without color,or pass
     '''
-    if not isinstance(obj,str):
+    if not isinstance(obj,str) and not isinstance(obj,unicode):
         obj = str(obj)
     #------------------------------
     if debug == 4:
