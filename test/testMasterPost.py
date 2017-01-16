@@ -11,25 +11,10 @@ class MyMasterSpider(Spider):
         self.postPages = range(1,11)
         self.postPageName = 'pageNo'
         self.data = {
-            'appDateBegin':'',
-            'appDateEnd':'',
-            'depId':'',
-            'flag':'',
             'pageSize':10,
-            'qymc':'',
-            'shxydm':''
         }
         self.serverHost = '127.0.0.1'
-        self.serverAuthkey = 'hello'
-        # self.debug = 4
-        # self.isInsertMysql = True
-        # self.mysqlHost = ''
-        # self.mysqlUser = ''
-        # self.mysqlPassword = ''
-        # self.mysqlDb = ''
-        # self.mysqlTableName = ''
-        # self.isUseRedis = True
-        # self.proxyEnable = True
+        self.serverAuthkey = 'serverAuthkey'
 
     def parseList(self,data,response):
         urls = []
@@ -53,10 +38,9 @@ class MyMasterSpider(Spider):
                 '行政相对人名称': NAME,
                 '行政处罚决定书文号': NUM,
                 '处罚名称': TITLE,
-                'URL':URL,
+                '链接地址':URL,
             }
         return jsonData
 
 if __name__ == "__main__":
-    dps = MyMasterSpider()
-    dps.run()
+    MyMasterSpider().run()
