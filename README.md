@@ -75,9 +75,9 @@ dpspider：一个轻量级Web爬虫框架
 ```
 
 * `xxx.tar.gz` 最新版本
- * [dpspider-2.1.11.tar.gz](http://pan.baidu.com/s/1sl0GlXV)
+ * [dpspider-2.1.12.tar.gz](http://pan.baidu.com/s/1jI3CHCy)
 * `xxx.exe` 最新版本
- * [dpspider-2.1.11.win-amd64.exe](http://pan.baidu.com/s/1o8Jdpge)
+ * [dpspider-2.1.12.win-amd64.exe](http://pan.baidu.com/s/1qYyaMhm)
  
 # 运行效果图展示
 
