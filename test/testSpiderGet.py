@@ -6,16 +6,7 @@ from dpspider.spider import Spider
 class Mypider(Spider):
     def __init__(self):
         Spider.__init__(self)
-        self.listGetUrls = ['http://www.tmtpost.com/new/%d'%page for page in range(1,3)]
-        # self.threadNum = 40
-        # self.isInsertMysql = True
-        # self.mysqlHost = ''
-        # self.mysqlUser = ''
-        # self.mysqlPassword = ''
-        # self.mysqlDb = ''
-        # self.mysqlTableName = ''
-        # self.isUseRedis = True
-        # self.proxyEnable = True
+        self.listGetUrls = ['http://www.tmtpost.com/new/%d'%page for page in range(1,11)]
 
     def parseList(self,data,response):
         urls = []
@@ -31,16 +22,15 @@ class Mypider(Spider):
         if data:
             TITLE = data.xpathOne('//h1').bytes().strip()
             URL = response.request.url
-            CTIME = data.xpathOne('//span[contains(@class,"time")]').bytes().strip()
-            SUMMERY = data.xpathOne('//p[@class="post-abstract"]/text()[2]').bytes().strip()
+            CTIME = data.xpathOne('//span[contains(@class,"time")]').datetime()
+            CONTENT = data.xpathOne('//article/div[@class="inner"]').bytes().strip()
             jsonData = {
                 'TITLE': TITLE,
                 'URL': URL,
                 'CTIME': CTIME,
-                'SUMMERY': SUMMERY,
+                'CONTENT': CONTENT,
             }
         return jsonData
 
 if __name__ == "__main__":
-    dps = Mypider()
-    dps.run()
+    Mypider().run()
