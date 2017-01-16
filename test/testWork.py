@@ -4,5 +4,4 @@
 from dpspider.multiworker import multiWorker
 
 if __name__ == '__main__':
-    multiWorker(10,serverAuthkey='hello')
-    #multiWorker(serverAuthkey='hello',logFile='1.log')
+    multiWorker(10,serverAuthkey='serverAuthkey')
