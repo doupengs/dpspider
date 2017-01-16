@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-from setuptools import setup
+from setuptools import setup,find_packages
 from dpspider import __version__
+
 
 setup(
     name="dpspider",
@@ -12,7 +13,7 @@ setup(
     author_email = 'doupeng1993@sina.com',
     url="https://github.com/doupengs/dpspider",
     license="GPL",
-    packages= ['dpspider'],
+    packages= find_packages(),
     classifiers=[
         'Intended Audience :: Developers',
         'Topic :: Web Scraping Development :: Python Modules',
