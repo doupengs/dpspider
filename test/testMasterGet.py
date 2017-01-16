@@ -6,18 +6,9 @@ from dpspider.distspider import Spider
 class MyMasterSpider(Spider):
     def __init__(self):
         Spider.__init__(self)
-        self.listGetUrls = ['http://www.tmtpost.com/new/%d'%page for page in range(1,3)]
+        self.listGetUrls = ['http://www.tmtpost.com/new/%d'%page for page in range(1,11)]
         self.serverHost = '127.0.0.1'
-        self.serverAuthkey = 'hello'
-        # self.isInsertMysql = True
-        # self.mysqlHost = ''
-        # self.mysqlUser = ''
-        # self.mysqlPassword = ''
-        # self.mysqlDb = ''
-        # self.mysqlTableName = ''
-        # self.isUseRedis = True
-        # self.redisKey = 'URL'
-        # self.isRedisKeyUrl = False
+        self.serverAuthkey = 'serverAuthkey'
 
     def parseList(self,data,response):
         urls = []
@@ -33,16 +24,15 @@ class MyMasterSpider(Spider):
         if data:
             TITLE = data.xpathOne('//h1').bytes().strip()
             URL = response.request.url
-            CTIME = data.xpathOne('//span[contains(@class,"time")]').bytes().strip()
-            SUMMERY = data.xpathOne('//p[@class="post-abstract"]/text()[2]').bytes().strip()
+            CTIME = data.xpathOne('//span[contains(@class,"time")]').datetime()
+            CONTENT = data.xpathOne('//article/div[@class="inner"]').bytes().strip()
             jsonData = {
                 'TITLE': TITLE,
                 'URL': URL,
                 'CTIME': CTIME,
-                'SUMMERY': SUMMERY,
+                'CONTENT': CONTENT,
             }
         return jsonData
 
 if __name__ == '__main__':
-    dp = MyMasterSpider()
-    dp.run()
+    MyMasterSpider().run()
