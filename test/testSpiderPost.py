@@ -8,26 +8,11 @@ class Mypider(Spider):
         Spider.__init__(self)
         self.listPostUrl = 'http://www1.sxcredit.gov.cn:8080/WebGovAppSgs/a/sgsxy/xzcfFind'
         self.method = ('POST','GET')
-        self.postPages = range(1,11)
+        self.postPages = range(1,21)
         self.postPageName = 'pageNo'
         self.data = {
-            'appDateBegin':'',
-            'appDateEnd':'',
-            'depId':'',
-            'flag':'',
             'pageSize':10,
-            'qymc':'',
-            'shxydm':''
         }
-        #self.threadNum = 40
-        # self.isInsertMysql = True
-        # self.mysqlHost = ''
-        # self.mysqlUser = ''
-        # self.mysqlPassword = ''
-        # self.mysqlDb = ''
-        # self.mysqlTableName = ''
-        # self.isUseRedis = True
-        # self.proxyEnable = True
 
     def parseList(self,data,response):
         urls = []
@@ -51,10 +36,9 @@ class Mypider(Spider):
                 '行政相对人名称': NAME,
                 '行政处罚决定书文号': NUM,
                 '处罚名称': TITLE,
-                'URL':URL,
+                '链接地址':URL,
             }
         return jsonData
 
 if __name__ == "__main__":
-    dps = Mypider()
-    dps.run()
+    Mypider().run()
