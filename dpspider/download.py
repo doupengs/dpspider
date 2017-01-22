@@ -81,7 +81,7 @@ class Download(object):
             try:
                 if self._count < self._max:
                     p = 'http' if 'http' in self._proxies else 'https'
-                    printText("[INFO]use proxy:%s"%self._proxies.get(p,'').replace(p+'://',''),logFile=self.logFile,color=self.debug,debug=self.debug)
+                    printText("[INFO]use proxy:%s"%self._proxies.get(p,'').replace(p+'://',''),logFile=self.logFile,color=self.color,debug=self.debug)
                     response = requests.request(method,url,params=params,data=data,json=json,headers=headers,cookies=cookies,
                                                 files=files,auth=auth,timeout=timeout,allow_redirects=allowRedirects,
                                                 proxies=self._proxies,verify=verify,stream=stream,cert=cert)
