@@ -213,7 +213,7 @@ class Parser(object):
             dtf = datetime.datetime.now()
             strDt = dtf.strftime(timeStrFormat)
             dt = datetime.datetime.strptime(strDt,timeStrFormat)
-            printText('[Error]:parser.py Parser datetime:search time format failed, return current time',
+            printText('[Error]parser.py Parser datetime:search time format failed, return current time',
                       logFile=self.logFile,color=self.color,debug=self.debug)
         if returnStrType:
             return strDt
